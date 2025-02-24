@@ -1,0 +1,325 @@
+/*
+* demo.css
+* File include item demo only specific css only
+******************************************************************************/
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap');
+:root{
+  --primary-color:#2E3B7E;
+  --secondary-color:#5769C8;
+  --primary-light-color:#98d6d5;
+  --secondary-light-color:#bbe3e3;
+  --light-color:#fff;
+  --dark-color:#000;
+}
+body{
+  font-family: "Red Hat Display", sans-serif!important;
+}
+.light-style .menu .app-brand.demo {
+  height: 64px;
+}
+
+.dark-style .menu .app-brand.demo {
+  height: 64px;
+}
+
+.app-brand-logo.demo {
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  /* justify-content: center; */
+  display: -ms-flexbox;
+  display: flex;
+  width: 14em;
+  height: auto;
+}
+.app-brand-logo.custome-admin-logo{
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -ms-flexbox;
+  display: flex;
+  width: 4em!important;
+  height: auto!important;
+}
+.auth-page-logo img{
+  width: 100%;
+  object-fit: contain;
+}
+.app-brand-logo.demo svg {
+  width: 35px;
+  height: 24px;
+}
+
+.app-brand-text.demo {
+  font-size: 1rem;
+}
+
+/* ! For .layout-navbar-fixed added fix padding top tpo .layout-page */
+.layout-navbar-fixed .layout-wrapper:not(.layout-without-menu) .layout-page {
+  padding-top: 64px !important;
+}
+.layout-navbar-fixed .layout-wrapper:not(.layout-horizontal):not(.layout-without-menu) .layout-page {
+  padding-top: 78px !important;
+}
+/* Navbar page z-index issue solution */
+.content-wrapper .navbar {
+  z-index: auto;
+}
+
+/*
+* Content
+******************************************************************************/
+
+.demo-blocks > * {
+  display: block !important;
+}
+
+.demo-inline-spacing > * {
+  margin: 1rem 0.375rem 0 0 !important;
+}
+
+/* ? .demo-vertical-spacing class is used to have vertical margins between elements. To remove margin-top from the first-child, use .demo-only-element class with .demo-vertical-spacing class. For example, we have used this class in forms-input-groups.html file. */
+.demo-vertical-spacing > * {
+  margin-top: 1rem !important;
+  margin-bottom: 0 !important;
+}
+.demo-vertical-spacing.demo-only-element > :first-child {
+  margin-top: 0 !important;
+}
+
+.demo-vertical-spacing-lg > * {
+  margin-top: 1.875rem !important;
+  margin-bottom: 0 !important;
+}
+.demo-vertical-spacing-lg.demo-only-element > :first-child {
+  margin-top: 0 !important;
+}
+
+.demo-vertical-spacing-xl > * {
+  margin-top: 5rem !important;
+  margin-bottom: 0 !important;
+}
+.demo-vertical-spacing-xl.demo-only-element > :first-child {
+  margin-top: 0 !important;
+}
+
+.rtl-only {
+  display: none !important;
+  text-align: left !important;
+  direction: ltr !important;
+}
+
+[dir='rtl'] .rtl-only {
+  display: block !important;
+}
+
+/* Dropdown buttons going out of small screens */
+@media (max-width: 576px) {
+  #dropdown-variation-demo .btn-group .text-truncate {
+    width: 254px;
+    position: relative;
+  }
+  #dropdown-variation-demo .btn-group .text-truncate::after {
+    position: absolute;
+    top: 45%;
+    right: 0.65rem;
+  }
+}
+
+/*
+* Layout demo
+******************************************************************************/
+
+.layout-demo-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+.layout-demo-placeholder img {
+  width: 900px;
+}
+.layout-demo-info {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.custome-bg{
+  /* background:#2E3B7E; */
+  background: url("../../images/bitcoin-auth.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  min-height: calc(100vh - 14.5rem);
+  flex: 2;
+
+}
+/* .custome-bg::after{
+  content: '';
+  position: absolute;
+  background:linear-gradient(45deg, black, transparent);
+  inset: 0;
+  display: inline-block;
+} */
+.custome-default-btn{
+  background-color: var(--primary-color);
+  border-color:var(--primary-color) ;
+  color: #fff;
+}
+.custome-default-btn:hover{
+  background-color: #2E3B7E;
+  border-color:#2E3B7E ;
+  color: #fff;
+}
+a{
+  color: #2E3B7E;
+}
+.app-brand-text.demo{
+color: #fff!important;
+}
+.customr-bg-image{
+  position: relative;
+  z-index: 99;
+  background: #fff;
+  justify-content: center;
+  height: 100%;
+}
+.authentication-bg{
+  background: #fff;
+  position: relative;
+}
+.flex-1{
+  flex: 1;
+}
+.authentication-inner{
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.customr-bg-image .card{
+  background: #fff;
+
+}
+.breadcrumb-item, .breadcrumb-item a{
+  color: #2E3B7E;
+}
+
+.form-control::placeholder{
+  font-size: 0.9em;
+}
+
+.withdraw-modal-header-box{
+  grid-template-columns: repeat(2, 1fr);
+  display: grid;
+  gap: 1em;
+  margin-bottom: 1.5em;
+}
+
+.withdraw-modal-header-card{
+  border: 1px dashed #dbdade;
+  padding: 1.5em;
+  border-radius: 0.375rem;
+}
+
+.withdraw-modal-header-card h4{
+  font-size: 1.4em;
+  color: var(--tertiary-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  margin-bottom: 0.5em;
+}
+
+.withdraw-modal-header-card p{
+  color: #5d596c;
+  font-size: 1em;
+  font-weight: 400;
+  margin-bottom: 0em;
+}
+
+.withdraw-modal-form{
+  margin-top: 1.5em;
+}
+
+.withdraw-modal-radio-btn-sec h5{
+  font-size: 0.9em;
+  font-weight: 700;
+  color: #55575b;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.withdraw-modal-radio-btn-sec{
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
+.withdraw-modal-radio-btn-right-sec{
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.withdraw-modal-form .bootstrap-select{
+  min-width: -webkit-fill-available!important;
+}
+
+.withdraw-modal-footer-btn-sec{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 1.5em;
+  gap: 1em;
+}
+
+.website-hide{
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  .search-box-width-lg{
+    width: 100%!important;
+  }
+  .efi-verify-card{
+    padding: 0.3em 1em;
+  }
+  .mobile-hide{
+    display: none;
+  }
+  .website-hide{
+    display: flex;
+    margin-top: 2em;
+  }  
+  .withdraw-modal-header-box{
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .withdraw-modal-radio-btn-sec{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .withdraw-modal-footer-btn-sec{
+    flex-direction: column;
+  }
+}
