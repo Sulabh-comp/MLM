@@ -22,6 +22,7 @@ class UsersTableSeeder extends Seeder
         $employee->name = 'Employee';
         $employee->email = 'employee@mlm.com';
         $employee->phone = '1234567890';
+        $employee->designation = 'Employee';
         $employee->password = bcrypt('password');
         $employee->save();
 

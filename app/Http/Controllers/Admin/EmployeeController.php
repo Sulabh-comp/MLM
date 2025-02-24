@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Employee;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class EmployeeController extends Controller
 {
@@ -24,14 +25,16 @@ class EmployeeController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:employees',
-            'password' => 'required|confirmed',
+            'email' => 'required|email|unique:employees,email',
+            'phone' => 'required',
+            'designation' => 'required',
         ]);
 
         $employee = new Employee();
         $employee->name = $request->name;
         $employee->email = $request->email;
-        $employee->password = bcrypt($request->password);
+        $employee->phone = $request->phone;
+        $employee->designation = $request->designation;
         $employee->save();
 
         return redirect()->route('admin.employees.index')->with('success', 'Employee created successfully');

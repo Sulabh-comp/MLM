@@ -12,13 +12,16 @@ use Illuminate\Queue\SerializesModels;
 class UserCreationMail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $model, $password, $type;
 
     /**
      * Create a new message instance.
      */
     public function __construct($model, $password, $type)
     {
-        //
+        $this->model = $model;
+        $this->password = $password;
+        $this->type = $type;
     }
 
     /**
@@ -37,7 +40,12 @@ class UserCreationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.user-creation',
+            with: [
+                'model' => $this->model,
+                'password' => $this->password,
+                'type' => $this->type,
+            ],
         );
     }
 

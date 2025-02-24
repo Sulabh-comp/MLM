@@ -3,13 +3,23 @@
 namespace App\Models;
 
 use App\Mail\UserCreationMail;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Mail;
 use Str;
 
-class Agency extends Model
+class Agency extends Authenticatable
 {
-    protected $guarded = [];
+    use HasFactory, Notifiable;
+
+    protected $guard = 'agency';
+
+    protected $guarded = ['id'];
+
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
     public function customers()
     {
@@ -26,7 +36,7 @@ class Agency extends Model
         parent::boot();
 
         static::creating(function($agency) {
-            $password ='zndbchskbc a';
+            $password ='zndbchskbca';
             $agency->password = bcrypt($password);
         });
 
