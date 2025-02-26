@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\{AuthController, DashboardController, EmployeeController, RolePermissionController, AgencyController, CustomerController};
+use App\Http\Controllers\Admin\{AuthController, DashboardController, EmployeeController, RolePermissionController, AgencyController, CustomerController, FamilyMemberController};
 
 Route::controller(AuthController::class)->group(function() {
 
@@ -29,10 +29,16 @@ Route::group(['middleware' => ['auth:admin']], function() {
 
     Route::resource('roles-permissions', RolePermissionController::class);
 
-    Route::put('agencies/updateStatus', AgencyController::class . '@updateStatus')->name('agencies.updateStatus');
+    Route::put('agencies/`updateStatus`', AgencyController::class . '@updateStatus')->name('agencies.updateStatus');
 
     Route::resource('agencies', AgencyController::class);
 
+    Route::put('customers/updateStatus', [CustomerController::class, 'updateStatus'])->name('customers.updateStatus');
+
     Route::resource('customers', CustomerController::class);
+
+    Route::put('family_members/updateStatus', [FamilyMemberController::class, 'updateStatus'])->name('family_members.updateStatus');
+
+    Route::resource('family_members', FamilyMemberController::class);
 
 });
