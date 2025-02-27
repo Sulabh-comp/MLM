@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Agency;
 
 use App\Models\Customer;
 use App\Models\FamilyMember;
@@ -24,11 +24,11 @@ class FamilyMemberController extends Controller
     {
         $customer = Customer::find(request('customer_id'));
         if (!$customer) {
-            return redirect()->route('admin.customers.index')->with('error', 'Customer not found!');
+            return redirect()->route('agency.customers.index')->with('error', 'Customer not found!');
         }
 
         $familyMember = new FamilyMember();
-        return view('admin.customers.family_members.create', compact('customer', 'familyMember'));
+        return view('agency.customers.family_members.create', compact('customer', 'familyMember'));
     }
 
     /**
@@ -70,9 +70,9 @@ class FamilyMemberController extends Controller
         $validated = $request->all();
 
         unset($validated['_token'], $validated['_method']);
-        FamilyMember::create($validated);
+        $familyMember = FamilyMember::create($validated);
 
-        return redirect()->route('admin.family-members.index')->with('success', 'Family member created successfully.');
+        return redirect()->route('agency.family-members.show', $familyMember->id)->with('success', 'Family member created successfully.');
     }
 
     /**
@@ -81,7 +81,7 @@ class FamilyMemberController extends Controller
     public function show(string $id)
     {
         $familyMember = FamilyMember::with('customer')->findOrFail($id); // Fetch family member with customer details
-        return view('admin.customers.family_members.show', compact('familyMember'));
+        return view('agency.customers.family_members.show', compact('familyMember'));
     }
 
     /**
@@ -91,7 +91,7 @@ class FamilyMemberController extends Controller
     {
         $familyMember = FamilyMember::findOrFail($id);
         $customers = Customer::where('status', 1);
-        return view('admin.customers.family_members.edit', compact('familyMember', 'customers'));
+        return view('agency.customers.family_members.edit', compact('familyMember', 'customers'));
     }
 
     /**
@@ -137,7 +137,7 @@ class FamilyMemberController extends Controller
         $familyMember = FamilyMember::findOrFail($id);
         $familyMember->update($validated);
 
-        return redirect()->route('admin.family-members.show', $familyMember->customer_id)->with('success', 'Family member updated successfully.');
+        return redirect()->route('agency.family-members.show', $familyMember->customer_id)->with('success', 'Family member updated successfully.');
     }
 
     /**
@@ -149,7 +149,7 @@ class FamilyMemberController extends Controller
         $customer_id = $familyMember->customer_id;
         $familyMember->delete();
 
-        return redirect()->route('admin.customers.show', $customer_id)->with('success', 'Family member deleted successfully.');
+        return redirect()->route('agency.customers.show', $customer_id)->with('success', 'Family member deleted successfully.');
     }
     /**
      * Update the status of the specified resource.
@@ -160,6 +160,6 @@ class FamilyMemberController extends Controller
         $familyMember->status = !$familyMember->status; // Toggle status
         $familyMember->save();
 
-        return redirect()->route('admin.customers.show', $familyMember->customer_id)->with('success', 'Family member status updated successfully.');
+        return redirect()->route('agency.customers.show', $familyMember->customer_id)->with('success', 'Family member status updated successfully.');
     }
 }

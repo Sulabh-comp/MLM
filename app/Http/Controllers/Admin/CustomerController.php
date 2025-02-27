@@ -142,4 +142,15 @@ class CustomerController extends Controller
         return view('admin.customers.show', compact('customer'));
     }
 
+    /**
+     * Update the status of the specified resource.
+     */
+    public function updateStatus(Request $request)
+    {
+        $customer = Customer::findOrFail($request->id);
+        $customer->status = !$customer->status; // Toggle status
+        $customer->save();
+
+        return redirect()->route('admin.customers.index')->with('success', 'Customer status updated successfully');
+    }
 }

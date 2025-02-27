@@ -8,13 +8,13 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-     
+
       <ul class="navbar-nav flex-row align-items-center ms-auto">
         <!-- User -->
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
           <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
             <div class="avatar avatar-online">
-              <img src="{{ auth('employee')->user()->picture ?: asset('placeholder.jpeg') }}" alt class="h-auto rounded-circle">
+              <img src="{{ auth('agency')->user()->picture ?: asset('placeholder.jpeg') }}" alt class="h-auto rounded-circle">
             </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
@@ -23,12 +23,12 @@
                 <div class="d-flex">
                   <div class="flex-shrink-0 me-3">
                     <div class="avatar avatar-online">
-                      <img src="{{ auth('employee')->user()->picture ?: asset('placeholder.jpeg') }}" alt class="h-auto rounded-circle">
+                      <img src="{{ auth('agency')->user()->picture ?: asset('placeholder.jpeg') }}" alt class="h-auto rounded-circle">
                     </div>
                   </div>
                   <div class="flex-grow-1">
-                    <span class="fw-medium d-block">{{ Str::limit(auth('employee')->user()->name, 10) }}</span>
-                    <small class="text-muted">{{ Str::limit(auth('employee')->user()->email, 15) }}</small>
+                    <span class="fw-medium d-block">{{ Str::limit(auth('agency')->user()->name, 10) }}</span>
+                    <small class="text-muted">{{ Str::limit(auth('agency')->user()->email, 15) }}</small>
                   </div>
                 </div>
               </a>
@@ -59,7 +59,7 @@
           <h3 class="mb-2">{{__('logout')}}?</h3>
         </div>
         <p class="text-center mb-4">{{__('Are you sure you want to logout')}}</p>
-        <form class="row g-3" action="{{ route('employee.logout') }}">
+        <form class="row g-3" action="{{ route('agency.logout') }}">
           @csrf
           <div class="col-12 text-center">
             <button type="submit" class="btn btn-primary me-sm-3 me-1">{{__('yes')}}</button>

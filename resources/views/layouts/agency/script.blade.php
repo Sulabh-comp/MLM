@@ -23,7 +23,7 @@
 <script src="{{asset('vuexy-assets/vendor/libs/quill/quill.js')}}"></script>
 <script src="{{asset('vuexy-assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js')}}"></script>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 
 function notifier(message, type) {
 
@@ -170,9 +170,9 @@ if($('#checkAll').length && $('.checkSingle').length) {
 }
 
 @if(session('error'))
-    notifier("{{ session('error') }}", "error") 
+    notifier("{{ session('error') }}", "error")
 @endif
- 
+
 @if(session('success'))
     notifier("{{ session('success') }}", "success")
 @endif

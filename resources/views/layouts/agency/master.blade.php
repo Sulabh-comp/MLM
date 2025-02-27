@@ -100,7 +100,7 @@
 
 <body>
 
-@guest('employee')
+@guest('agency')
 
 <div class="authentication-wrapper authentication-cover authentication-bg">
 
@@ -114,17 +114,17 @@
 
 @endguest
 
- 
 
-@auth('employee')
+
+@auth('agency')
 
 <div class="layout-wrapper layout-content-navbar">
 
     <div class="layout-container">
 
-        @include('layouts.employee.sidebar')
+        @include('layouts.agency.sidebar')
 
-        @include('layouts.employee.header')
+        @include('layouts.agency.header')
 
             <div class="content-wrapper">
 
@@ -134,7 +134,7 @@
                         <nav aria-label="breadcrumb" class="breadcrumb-padding">
                           <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                              <a href="{{ route('employee.dashboard') }}">{{__('home')}}</a>
+                              <a href="{{ route('agency.dashboard') }}">{{__('home')}}</a>
                             </li>
                             @yield('breadcrumbs')
                           </ol>
@@ -144,7 +144,7 @@
                     @yield('content')
                 </div>
 
-            @include('layouts.employee.footer')
+            @include('layouts.agency.footer')
 
          <div class="content-backdrop fade"></div>
 
@@ -156,7 +156,7 @@
 
 @endauth
 
-@include('layouts.employee.script')
+@include('layouts.agency.script')
 
 @yield('scripts')
 

@@ -1,6 +1,6 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
-    <a href="{{route('employee.dashboard')}}" class="app-brand-link">
+    <a href="{{route('agency.dashboard')}}" class="app-brand-link">
       <span class="app-brand-logo custome-admin-logo ">
         <img src="{{ asset('logo.png')}}" class="w-75per">
       </span>
@@ -17,26 +17,20 @@
   <ul class="menu-inner py-1 admin-nav">
     <!-- Apps & Pages -->
     <li class="menu-item" id="dashboard">
-      <a href="{{route('employee.dashboard')}}" class="menu-link">
+      <a href="{{route('agency.dashboard')}}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-home"></i>
         <div>{{ __('Dashboard') }}</div>
       </a>
     </li>
 
     <li class="menu-item" id="users">
-      <a href="{{route('employee.agencies.index')}}" class="menu-link">
+      <a href="{{route('agency.customers.index')}}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-users"></i>
-        <div>{{ __('Agencies') }}</div>
+        <div>{{ __('Customers') }}</div>
       </a>
     </li>
-    <!-- <li class="menu-item" id="users">
-      <a href="{{route('employee.customers.index')}}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-users"></i>
-        <div>{{ __('customers') }}</div>
-      </a> -->
-    </li>
      <li class="menu-item">
-      <a data-bs-toggle="modal" data-bs-target="#logout" href="{{ route('employee.logout') }}" class="menu-link">
+      <a data-bs-toggle="modal" data-bs-target="#logout" href="{{ route('agency.logout') }}" class="menu-link">
         <i class="ti ti-logout me-2 ti-sm"></i>
         <span>{{ __('logout') }}</span>
       </a>
@@ -46,5 +40,5 @@
 <style>
   .admin-nav li{
   margin: 0.5rem 0!important;
-} 
+}
 </style>
