@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('designation');
             $table->string('password');
+            $table->timestamp('last_notification_read_at')->default(now());
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

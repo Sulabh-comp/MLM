@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->timestamp('last_notification_read_at')->default(now());
             $table->timestamps();
         });
     }

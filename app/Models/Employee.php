@@ -28,6 +28,13 @@ class Employee extends Authenticatable
         return $this->hasMany(Agency::class);
     }
 
+    public function notifications()
+    {
+        return Notification::where('model', self::class)->where(function ($query) {
+            $query->where('user_id', $this->id)->orWhere('user_id', 0);
+        });
+    }
+
     protected static function boot(){
         parent::boot();
 

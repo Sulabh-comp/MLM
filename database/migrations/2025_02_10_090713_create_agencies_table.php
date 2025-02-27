@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('address');
             $table->foreignId('employee_id')->nullable();
+            $table->timestamp('last_notification_read_at')->default(now());
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });

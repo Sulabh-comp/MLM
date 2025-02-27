@@ -50,6 +50,13 @@ class AgencyController extends Controller
             $notification->save();
         }
 
+        Notification::create([
+            'user_id' => 0,
+            'model' => Admin::class,
+            'title' => 'Agency Created by ' . auth()->guard('employee')->user()->name,
+            'content' => 'Agency ' . $agency->name . ' has been created successfully. Kindly approve it.',
+        ]);
+
         return redirect()->route('employee.agencies.index')->with('success', 'Agency created successfully');
     }
 
