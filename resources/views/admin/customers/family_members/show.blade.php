@@ -6,7 +6,10 @@
 
 @section('breadcrumbs')
 <li class="breadcrumb-item">
-  <a href="{{ route('admin.family_members.index') }}">{{ __('Family Members') }}</a>
+  <a href="{{ route('admin.customers.index') }}">{{ __('Customers') }}</a>
+</li>
+<li class="breadcrumb-item">
+  <a href="{{ route('admin.customers.show', $familyMember->customer) }}">{{ __('View Customer') }} {{ $familyMember->customer->first_name }} {{ $familyMember->customer->last_name }}</a>
 </li>
 <li class="breadcrumb-item active">
   {{ __('View Family Member') }}
@@ -18,7 +21,7 @@
   <div class="card-header header-elements d-flex justify-content-between align-items-center">
     <h5 class="m-0 me-2">{{ __('Family Member') }}</h5>
     <div class="form d-flex align-items-center">
-      <a href="{{ route('admin.family_members.edit', $familyMember) }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" title="{{ __('Edit') }}">
+      <a href="{{ route('admin.family-members.edit', $familyMember) }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" title="{{ __('Edit') }}">
         <i class="fa-solid fa-pen-to-square"></i>{{ __('Edit') }}
       </a>
       <a href="javascript:void(0)" class="btn btn-danger ml-3" onclick="deleteData({{ $familyMember->id }})" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-danger" title="{{ __('Delete') }}">
@@ -169,7 +172,7 @@
 
 <script>
   function deleteData(id) {
-    document.getElementById('deleteForm').action = `family_members/${id}`;
+    document.getElementById('deleteForm').action = `${id}`;
     $('#deleteModal').modal('show');
   }
 </script>

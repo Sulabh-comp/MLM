@@ -74,7 +74,7 @@
       </div>
       <div class="col-md-6">
         <h6>{{ __('Date of Birth') }}</h6>
-        <p>{{ $customer->dob ? $customer->dob->format('d M, Y') : 'N/A' }}</p>
+        <p>{{ $customer->dob ? $customer->dob : 'N/A' }}</p>
       </div>
       <div class="col-md-6">
         <h6>{{ __('Aadhar Number') }}</h6>
@@ -106,7 +106,7 @@
 <div class="card mt-4">
   <div class="card-header">
     <h5>{{ __('Family Members') }}</h5>
-    <a href="{{ route('admin.family_members.create', ['customer_id' => $customer->id]) }}" class="btn btn-primary">
+    <a href="{{ route('admin.family-members.create', ['customer_id' => $customer->id]) }}" class="btn btn-primary">
         <i class="fa-solid fa-plus"></i> {{ __('Add New Family Member') }}
     </a>
   </div>
@@ -136,10 +136,10 @@
               <td>{{ $familyMember->occupation }}</td>
               <td>{{ $familyMember->contact_number }}</td>
               <td>
-                <a href="{{ route('admin.family_members.show', $familyMember) }}" class="btn btn-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-info" title="{{ __('View') }}">
+                <a href="{{ route('admin.family-members.show', $familyMember) }}" class="btn btn-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-info" title="{{ __('View') }}">
                   <i class="fa-solid fa-eye"></i>
                 </a>
-                <a href="{{ route('admin.family_members.edit', $familyMember) }}" class="btn btn-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" title="{{ __('Edit') }}">
+                <a href="{{ route('admin.family-members.edit', $familyMember) }}" class="btn btn-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" title="{{ __('Edit') }}">
                   <i class="fa-solid fa-pen-to-square"></i>
                 </a>
                 <a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="deleteFamilyMember({{ $familyMember->id }})" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-danger" title="{{ __('Delete') }}">
@@ -209,12 +209,12 @@
   });
 
   function deleteData(id) {
-    document.getElementById('deleteForm').action = `customers/${id}`;
+    document.getElementById('deleteForm').action = `${id}`;
     $('#deleteModal').modal('show');
   }
 
   function deleteFamilyMember(id) {
-    document.getElementById('deleteForm').action = `family_members/${id}`;
+    document.getElementById('deleteForm').action = `/admin/family-members/${id}`;
     $('#deleteModal').modal('show');
   }
 </script>

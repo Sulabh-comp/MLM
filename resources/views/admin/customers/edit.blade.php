@@ -20,8 +20,8 @@
 
         @include('admin.customers._form', [
             'customer' => $customer,
-            'route' => route('admin.customers.update', $customer),
-            'method' => 'PUT',
+            '_route' => route('admin.customers.update', $customer),
+            '_method' => 'PUT',
             'agencies' => $agencies
         ])
 </div>

@@ -37,8 +37,8 @@ Route::group(['middleware' => ['auth:admin']], function() {
 
     Route::resource('customers', CustomerController::class);
 
-    Route::put('family_members/updateStatus', [FamilyMemberController::class, 'updateStatus'])->name('family_members.updateStatus');
+    Route::put('family-members/updateStatus', [FamilyMemberController::class, 'updateStatus'])->name('family-members.updateStatus');
 
-    Route::resource('family_members', FamilyMemberController::class);
+    Route::resource('family-members', FamilyMemberController::class);
 
 });

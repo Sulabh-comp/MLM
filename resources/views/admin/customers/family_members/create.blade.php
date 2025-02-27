@@ -23,8 +23,8 @@
 
         @include('admin.customers.family_members._form', [
             'customer' => $customer,
-            'route' => route('admin.customers.family-members.store'),
-            'method' => 'POST',
+            '_route' => route('admin.family-members.store'),
+            '_method' => 'POST',
             'familyMember' => $familyMember
         ])
 </div>

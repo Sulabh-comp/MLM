@@ -122,4 +122,35 @@
             <label for="sales_marketing" class="form-label">{{ __('Sales & Marketing') }}</label>
             <select class="form-select" id="sales_marketing" name="sales_marketing">
                 <option value="1" @selected($familyMember->sales_marketing == 1)>{{ __('Yes') }}</option>
-                <option value="
+                <option value="0" @selected($familyMember->sales_marketing == 0)>{{ __('No') }}</option>
+            </select>
+        </div>
+
+
+        <div class="mb-3 col-6">
+            <label for="partner_commission_work" class="form-label">{{ __('Partner Commission Work') }}</label>
+            <select class="form-select" id="partner_commission_work" name="partner_commission_work">
+                <option value="1" @selected($familyMember->partner_commission_work == 1)>{{ __('Yes') }}</option>
+                <option value="0" @selected($familyMember->partner_commission_work == 0)>{{ __('No') }}</option>
+            </select>
+        </div>
+        <div class="mb-3 col-6">
+            <label for="manufacturing_work" class="form-label">{{ __('Manufacturing Work') }}</label>
+            <select class="form-select" id="manufacturing_work" name="manufacturing_work">
+                <option value="1" @selected($familyMember->manufacturing_work == 1)>{{ __('Yes') }}</option>
+                <option value="0" @selected($familyMember->manufacturing_work == 0)>{{ __('No') }}</option>
+            </select>
+        </div>
+        <div class="mb-3 col-6">
+            <label for="commission_work" class="form-label">{{ __('Commission Work') }}</label>
+            <select class="form-select" id="commission_work" name="commission_work">
+                <option value="1" @selected($familyMember->commission_work == 1)>{{ __('Yes') }}</option>
+                <option value="0" @selected($familyMember->commission_work == 0)>{{ __('No') }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="pt-4">
+        <button type="submit" class="btn btn-primary me-sm-3 me-1">{{ __('Submit') }}</button>
+        <a href="{{ route('admin.family-members.index') }}" class="btn btn-label-secondary">{{ __('Cancel') }}</a>
+    </div>
+</form>
