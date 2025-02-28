@@ -87,6 +87,10 @@
       </tbody>
     </table>
   </div>
+
+    <div class="card-footer d-flex justify-content-center">
+    {{ $data->appends(request()->query())->links() }}
+    </div>
 </div>
 
 <!-- Change Status Modal -->

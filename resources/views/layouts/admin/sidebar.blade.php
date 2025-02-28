@@ -41,6 +41,16 @@
         <div>{{ __('Employees') }}</div>
       </a>
     </li>
+    <li class="menu-item" id="notifications">
+      <a href="{{route('admin.notifications.index')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-users"></i>
+        @php
+            $lastReadNotification = auth()->guard('admin')->user()->last_read_notification ?? now()->subYears(10);
+            $unreadNotifications = auth()->guard('admin')->user()->notifications()->where('created_at', '>', $lastReadNotification)->count();
+        @endphp
+        <div>{{ __('Notifications') }} @if($unreadNotifications > 0) <span class="badge bg-danger">{{ $unreadNotifications }}</span> @endif</div>
+      </a>
+    </li>
      <li class="menu-item">
       <a data-bs-toggle="modal" data-bs-target="#logout" href="{{ route('admin.logout') }}" class="menu-link">
         <i class="ti ti-logout me-2 ti-sm"></i>
@@ -52,5 +62,5 @@
 <style>
   .admin-nav li{
   margin: 0.5rem 0!important;
-} 
+}
 </style>

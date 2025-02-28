@@ -2,7 +2,7 @@
 
 @section('title', 'Agencies')
 
-@section('content-header', __('bank_accounts')) 
+@section('content-header', __('bank_accounts'))
 
 @section('breadcrumbs')
 <li class="breadcrumb-item">
@@ -78,7 +78,12 @@
       @endforelse
     </tbody>
   </table>
+
+<div class="card-footer d-flex justify-content-center">
+    {{ $data->appends(request()->query())->links() }}
 </div>
+</div>
+
 </div>
 </div>
 

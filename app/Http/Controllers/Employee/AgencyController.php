@@ -11,7 +11,7 @@ class AgencyController extends Controller
 {
     public function index()
     {
-        $data = Agency::where('employee_id', auth()->guard('employee')->id())->get();
+        $data = Agency::where('employee_id', auth()->guard('employee')->id())->paginate(10);
 
         return view('employee.agencies.index', compact('data'));
     }

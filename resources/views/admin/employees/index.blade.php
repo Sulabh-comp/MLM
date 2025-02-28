@@ -2,7 +2,7 @@
 
 @section('title', 'employees')
 
-@section('content-header', __('Employees')) 
+@section('content-header', __('Employees'))
 
 @section('breadcrumbs')
 <li class="breadcrumb-item">
@@ -78,6 +78,9 @@
       @endforelse
     </tbody>
   </table>
+</div>
+<div class="card-footer d-flex justify-content-center">
+    {{ $data->withQueryString()->links() }}
 </div>
 </div>
 </div>

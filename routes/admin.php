@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\{AuthController, DashboardController, EmployeeController, RolePermissionController, AgencyController, CustomerController, FamilyMemberController};
 
 Route::controller(AuthController::class)->group(function() {
@@ -40,5 +41,7 @@ Route::group(['middleware' => ['auth:admin']], function() {
     Route::put('family-members/updateStatus', [FamilyMemberController::class, 'updateStatus'])->name('family-members.updateStatus');
 
     Route::resource('family-members', FamilyMemberController::class);
+
+    Route::resource('notifications', NotificationController::class);
 
 });

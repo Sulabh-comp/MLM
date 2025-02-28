@@ -1,14 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .w-75per {
   height: 4em;
   object-fit: contain;
 }
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
 
+.dashboard-card {
+    @apply bg-white rounded-lg shadow-md p-6;
+}
+
+.dashboard-card h3 {
+    @apply text-lg font-semibold text-gray-700 mb-2;
+}
+
+.dashboard-card p {
+    @apply text-3xl font-bold text-primary-600;
+}
+
+#toast-container {
+    @apply fixed top-4 right-4 z-[9999] space-y-3;
+}
+
+.toast-success-background {
+    @apply bg-green-50 border border-green-200 flex items-center p-4 rounded-lg;
+}
+
+.toast-error-background {
+    @apply bg-red-50 border border-red-200 flex items-center p-4 rounded-lg;
+}
+
+.content-wrapper h2 {
+    @apply text-xl font-semibold text-gray-800 mb-4;
+}
+
+.trend-list li {
+    @apply py-3 border-b border-gray-200 last:border-0;
+}
+
+.layout-wrapper {
+    @apply min-h-screen flex;
+}
+
+.layout-container {
+    @apply flex-1 flex flex-col;
+}
+
+.layout-page {
+    @apply flex-1 p-6 bg-gray-50;
+}
+
+.breadcrumb-padding {
+    @apply py-3;
+}
+
+.breadcrumb {
+    @apply flex space-x-2 text-sm;
+}
+
+.breadcrumb-item {
+    @apply text-gray-500 hover:text-primary-600 transition-colors;
+}
+
+.breadcrumb-item.active {
+    @apply text-gray-700 font-medium;
+}
+
+.data-table {
+    @apply w-full whitespace-nowrap;
+}
+
+.data-table th {
+    @apply px-4 py-3 bg-gray-50 text-left text-sm font-semibold text-gray-700;
+}
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .layout-page {
+        @apply p-4;
+    }
+}
+.data-table td {
+    @apply px-4 py-3 border-t border-gray-200 text-sm text-gray-600;
+}
 .pagination-margin {
   margin: 1.5em;
 }
 
 .breadcrumb-padding {
-  padding-top:1.5em; 
+  padding-top:1.5em;
   padding-bottom:1.5em;
   padding-left:1em;
 }
@@ -177,7 +265,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  
+
 }
 .trading-info-name{
   padding: 1em 0;
@@ -540,7 +628,7 @@ color:#fff;
   align-items: center;
   justify-content: center;
   padding: 10px;
- 
+
   background: #2E3B7E0A;
 }
 .kyc-unity-grid-frame{
@@ -761,7 +849,7 @@ color:#fff;
   font-size: 1em;
   font-weight: 600;
   color: #000;
- 
+
 }
 .kyc-bank-details-frame-wrap{
   display: flex;
@@ -853,7 +941,7 @@ color:#fff;
 .empty-avater{
   width: 12em;
   height: auto;
-  
+
 }
 .kyc-empty-info-area h4{
   font-size: 1.2em;

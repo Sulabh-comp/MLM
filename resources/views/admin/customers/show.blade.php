@@ -150,6 +150,10 @@
           @endforeach
         </tbody>
       </table>
+
+    <div class="card-footer d-flex justify-content-center">
+        {{ $customer->familyMembers>appends(request()->query())->links() }}
+    </div>
     @endif
   </div>
 </div>

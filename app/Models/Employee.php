@@ -30,9 +30,11 @@ class Employee extends Authenticatable
 
     public function notifications()
     {
-        return Notification::where('model', self::class)->where(function ($query) {
-            $query->where('user_id', $this->id)->orWhere('user_id', 0);
-        });
+        return $this->hasMany(Notification::class, 'user_id')
+            ->where(function ($query) {
+                $query->where('user_id', $this->id)
+                      ->orWhere('user_id', 0);
+            })->where('model', self::class);
     }
 
     protected static function boot(){

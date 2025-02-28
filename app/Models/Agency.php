@@ -33,9 +33,11 @@ class Agency extends Authenticatable
 
     public function notifications()
     {
-        return Notification::where('model', self::class)->where(function ($query) {
-            $query->where('user_id', $this->id)->orWhere('user_id', 0);
-        });
+        return $this->hasMany(Notification::class, 'user_id')
+            ->where(function ($query) {
+                $query->where('user_id', $this->id)
+                      ->orWhere('user_id', 0);
+            })->where('model', self::class);
     }
 
     protected static function boot()
@@ -48,7 +50,7 @@ class Agency extends Authenticatable
         });
 
         static::updating(function($agency) {
-            if ($agency->status->isDirty() && $agency->status == 1) {
+            if ($agency->isDirty('status') && $agency->status == 1) {
                 // generate password
                 $password = Str::random(10);
                 $agency->password = bcrypt($password);
