@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{Agency, Employee};
-use Hash;
+use App\Exports\AgencyExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AgencyController extends Controller
 {
@@ -87,5 +88,11 @@ class AgencyController extends Controller
     public function show(Agency $agency)
     {
         return view('admin.agencies.show', compact('agency'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new AgencyExport, 'agencies.xlsx');
+
     }
 }

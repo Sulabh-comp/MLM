@@ -30,7 +30,8 @@ Route::group(['middleware' => ['auth:admin']], function() {
 
     Route::resource('roles-permissions', RolePermissionController::class);
 
-    Route::put('agencies/`updateStatus`', AgencyController::class . '@updateStatus')->name('agencies.updateStatus');
+    Route::put('agencies/updateStatus', AgencyController::class . '@updateStatus')->name('agencies.updateStatus');
+    Route::get('agencies/export', AgencyController::class . '@export')->name('agencies.export');
 
     Route::resource('agencies', AgencyController::class);
 

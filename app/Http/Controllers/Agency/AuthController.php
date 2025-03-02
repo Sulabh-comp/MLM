@@ -20,6 +20,11 @@ class AuthController extends Controller
             return redirect()->route('agency.dashboard');
         }
 
+        if (auth()->guard('agency')->user()->status == 0) {
+            auth()->guard('agency')->logout();
+            return back()->with('error', 'Your account is not active');
+        }
+
         return back()->with('error', 'Invalid credentials');
     }
 
