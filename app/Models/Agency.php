@@ -33,11 +33,7 @@ class Agency extends Authenticatable
 
     public function notifications()
     {
-        return $this->hasMany(Notification::class, 'user_id')
-            ->where(function ($query) {
-                $query->where('user_id', $this->id)
-                      ->orWhere('user_id', 0);
-            })->where('model', self::class);
+        return $this->hasMany(Notification::class,'user_id','id')->where('model', self::class);
     }
 
     protected static function boot()
@@ -57,6 +53,26 @@ class Agency extends Authenticatable
 
                 // send email to agency
                 Mail::to($agency->email)->send(new UserCreationMail($agency, $password, 'agency'));
+
+                Notification::create([
+                    'user_id' => $agency->employee->id,
+                    'model' => Employee::class,
+                    'title' => 'Agency ' . $agency->name . ' Approved',
+                    'url' => route('employee.agencies.show', $agency->id),
+                    'message' => 'Agency ' . $agency->name . ' has been approved by ' . auth()->guard('admin')->user()->name .''. $agency->email .'',
+                ]);
+
+                // generate notifications to all admins
+                $admins = Admin::all();
+                foreach ($admins as $admin) {
+                    $notification = new Notification();
+                    $notification->user_id = $admin->id;
+                    $notification->model = Admin::class;
+                    $notification->title = 'Agency ' . $agency->name . ' Approved';
+                    $notification->message = 'Agency ' . $agency->name . ' has been approved by ' . auth()->guard('admin')->user()->name;
+                    $notification->url = route('admin.agencies.show', $agency->id);
+                    $notification->save();
+                }
             }
         });
     }

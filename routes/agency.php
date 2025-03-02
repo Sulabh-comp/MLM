@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Agency\{AuthController, DashboardController, CustomerController, FamilyMemberController};
+use App\Http\Controllers\Agency\{AuthController, DashboardController, CustomerController, FamilyMemberController, NotificationController};
 
 Route::controller(AuthController::class)->group(function() {
 
@@ -30,5 +30,7 @@ Route::group(['middleware' => ['auth:agency']], function() {
     Route::put('family-members/updateStatus', [FamilyMemberController::class, 'updateStatus'])->name('family-members.updateStatus');
 
     Route::resource('family-members', FamilyMemberController::class);
+
+    Route::resource('notifications', NotificationController::class);
 
 });

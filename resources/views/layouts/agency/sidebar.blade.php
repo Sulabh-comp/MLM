@@ -29,6 +29,15 @@
         <div>{{ __('Customers') }}</div>
       </a>
     </li>
+    <li class="menu-item" id="notifications">
+      <a href="{{route('agency.notifications.index')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-users"></i>
+        @php
+            $unreadNotifications = auth()->guard('agency')->user()->notifications()->where('status', 0)->count();
+        @endphp
+        <div>{{ __('Notifications') }} @if($unreadNotifications > 0) <span class="badge bg-danger">{{ $unreadNotifications }}</span> @endif</div>
+      </a>
+    </li>
      <li class="menu-item">
       <a data-bs-toggle="modal" data-bs-target="#logout" href="{{ route('agency.logout') }}" class="menu-link">
         <i class="ti ti-logout me-2 ti-sm"></i>

@@ -22,7 +22,6 @@
             'customer' => $customer,
             '_route' => route('agency.customers.store'),
             '_method' => 'POST',
-            'agencies' => $agencies
         ])
 </div>
 

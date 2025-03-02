@@ -22,10 +22,6 @@ class Admin extends authenticatable
 
     public function notifications()
     {
-        return $this->hasMany(Notification::class, 'user_id')
-            ->where(function ($query) {
-                $query->where('user_id', $this->id)
-                      ->orWhere('user_id', 0);
-            })->where('model', self::class);
+        return $this->hasMany(Notification::class,'user_id','id')->where('model', self::class);
     }
 }

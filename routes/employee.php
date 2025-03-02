@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Employee\{AuthController, DashboardController, CustomerController, AgencyController};
+use App\Http\Controllers\Employee\{AuthController, DashboardController, CustomerController, AgencyController, NotificationController};
 
 Route::controller(AuthController::class)->group(function() {
 
@@ -26,5 +26,7 @@ Route::group(['middleware' => ['auth:employee']], function() {
     Route::resource('customers', CustomerController::class);
 
     Route::resource('agencies', AgencyController::class);
+
+    Route::resource('notifications', NotificationController::class);
 
 });

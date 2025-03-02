@@ -45,8 +45,7 @@
       <a href="{{route('admin.notifications.index')}}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-users"></i>
         @php
-            $lastReadNotification = auth()->guard('admin')->user()->last_read_notification ?? now()->subYears(10);
-            $unreadNotifications = auth()->guard('admin')->user()->notifications()->where('created_at', '>', $lastReadNotification)->count();
+            $unreadNotifications = auth()->guard('admin')->user()->notifications()->where('status', 0)->count();
         @endphp
         <div>{{ __('Notifications') }} @if($unreadNotifications > 0) <span class="badge bg-danger">{{ $unreadNotifications }}</span> @endif</div>
       </a>

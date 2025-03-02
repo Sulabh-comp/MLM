@@ -29,11 +29,16 @@
         <div>{{ __('Agencies') }}</div>
       </a>
     </li>
-    <!-- <li class="menu-item" id="users">
-      <a href="{{route('employee.customers.index')}}" class="menu-link">
+    
+    <li class="menu-item" id="notifications">
+      <a href="{{route('employee.notifications.index')}}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-users"></i>
-        <div>{{ __('customers') }}</div>
-      </a> -->
+        @php
+            $unreadNotifications = auth()->guard('employee')->user()->notifications()->where('status', 0)->count();
+        @endphp
+        <div>{{ __('Notifications') }} @if($unreadNotifications > 0) <span class="badge bg-danger">{{ $unreadNotifications }}</span> @endif</div>
+      </a>
+    </li>
     </li>
      <li class="menu-item">
       <a data-bs-toggle="modal" data-bs-target="#logout" href="{{ route('employee.logout') }}" class="menu-link">

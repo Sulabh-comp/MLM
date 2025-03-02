@@ -46,7 +46,7 @@ class CustomerController extends Controller
 
         // Create a new customer
         $customer = new Customer();
-        $customer->agency_id = auth()->user()->agency_id;
+        $customer->agency_id = auth()->guard('agency')->user()->id;
         $customer->sponcer_code = $request->sponcer_code;
         $customer->first_name = $request->first_name;
         $customer->last_name = $request->last_name;

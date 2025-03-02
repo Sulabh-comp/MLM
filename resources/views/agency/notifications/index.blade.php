@@ -1,4 +1,4 @@
-@extends('layouts.admin.master')
+@extends('layouts.agency.master')
 
 @section('title', 'Notifications')
 
@@ -6,7 +6,7 @@
 
 @section('breadcrumbs')
 <li class="breadcrumb-item">
-  <a href="{{ route('admin.notifications.index') }}">{{ __('Notifications') }}</a>
+  <a href="{{ route('agency.notifications.index') }}">{{ __('Notifications') }}</a>
 </li>
 <li class="breadcrumb-item active">
   {{ __('View Notifications') }}
@@ -18,7 +18,7 @@
   <div class="card-header header-elements d-flex justify-content-between align-items-center">
     <h5 class="m-0 me-2">{{ __('Notifications') }}</h5>
     {{-- <form class="form d-flex align-items-center" method="GET" action="#">
-      <a href="{{ route('admin.notifications.create') }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" title="{{ __('Add New') }}">
+      <a href="{{ route('agency.notifications.create') }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" title="{{ __('Add New') }}">
         <i class="fa-solid fa-plus"></i>{{ __('Add New') }}
       </a>
     </form> --}}
@@ -35,19 +35,18 @@
       </thead>
       <tbody class="table-border-bottom-0">
         @php
-            $admin = auth('admin')->user();
+            $agency = auth('agency')->user();
 
-            $unreadNotifications = auth()->guard('admin')->user()->notifications()->where('status', 0)->count();
+            $unreadNotifications = auth()->guard('agency')->user()->notifications()->where('status', 0)->count();
             // Set per_page dynamically
             $per_page = max($unreadNotifications, 10);
 
-            $data = auth('admin')->user()->notifications()
+            $data = auth('agency')->user()->notifications()
                 ->latest()
                 ->paginate($per_page);
 
             // Update last read timestamp
-            // $admin->update(['last_notification_read_at' => now()]);
-            $admin->notifications()->update(values: ['status' => 1]);
+            $agency->notifications()->update(['status' => 1]);
         @endphp
         @forelse($data as $key => $datum)
         <tr @if($key < $unreadNotifications) class="bg-secondary" @endif>
