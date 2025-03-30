@@ -54,7 +54,7 @@
             <span class="badge bg-label-{{ $datum->status ? 'success' : 'danger' }} me-1" id="statusText{{ $datum->id }}">
               {{ status_formatted($datum->status) }}
             </span>
-            <a href="javascript:void(0)" class="change-status" data-id="{{ $datum->id }}" data-bs-toggle="modal" data-bs-target="#changeStatusModal">
+            <a href="javascript:void(0)" class="change-status" data-id="{{ $datum->id }}" data-bs-toggle="modal" data-status="{{ $datum->status }}" data-bs-target="#changeStatusModal">
               <i class="fa-solid fa-pen-to-square"></i>
             </a>
           </td>
@@ -105,7 +105,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>{{ __('Are you sure you want to change the status?') }}</p>
+          <p>{{__('Are you sure you want to change the status to ')}} <span id="status"> </span>?</p>
           <input type="hidden" name="id" id="id">
         </div>
         <div class="modal-footer">
@@ -144,6 +144,7 @@
   document.querySelectorAll('.change-status').forEach(item => {
     item.addEventListener('click', event => {
       document.getElementById('id').value = item.getAttribute('data-id');
+      document.getElementById('status').innerText = item.getAttribute('data-status') == 1 ? 'Inactive' : 'Active';
     });
   });
 
