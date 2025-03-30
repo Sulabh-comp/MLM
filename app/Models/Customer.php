@@ -18,16 +18,12 @@ class Customer extends Model
         return $this->hasMany(FamilyMember::class);
     }
 
-    public function getNameAttribute()
-    {
-        return $this->first_name . ' ' . $this->last_name;
-    }
-
     protected static function booted()
     {
         static::addGlobalScope('search', function ($builder) {
             if ($search = request()->query('q')) {
-                $builder->where('name', 'like', '%' . $search . '%')
+                $builder->where('first_name', 'like', '%' . $search . '%')
+                        ->orWhere('last_name', 'like', '%' . $search . '%')
                         ->orWhere('email', 'like', '%' . $search . '%');
             }
         });
