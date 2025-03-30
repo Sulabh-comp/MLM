@@ -19,8 +19,7 @@ class FamilyMember extends Model
     {
         static::addGlobalScope('search', function ($builder) {
             if ($search = request()->query('q')) {
-                $builder->where('name', 'like', '%' . $search . '%')
-                        ->orWhere('email', 'like', '%' . $search . '%');
+                $builder->where('name', 'like', '%' . $search . '%');
             }
         });
     }
