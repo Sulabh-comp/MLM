@@ -78,8 +78,8 @@
         <tr>
           <td colspan="12" class="text-center">
             <span class="no-data-frame">
-              <img src="{{ asset('/images/no-data.png') }}" class="no-data-avatar" alt="No Data">
-              <h2>{{ __('No Data Found') }}</h2>
+              <img src="{{ asset('/images/no-data.png') }}" class="no-data-avater" alt="No Data">
+              <h2> {{ __('No Data Found') }}</h2>
             </span>
           </td>
         </tr>

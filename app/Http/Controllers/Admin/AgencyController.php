@@ -12,7 +12,12 @@ class AgencyController extends Controller
 {
     public function index()
     {
-        $data = Agency::latest()->paginate(10);
+        $data = Agency::latest()
+            ->with('employee')
+            ->when(request()->q, function ($agencies) {
+                $agencies = $agencies->where('name', 'like', '%' . request()->q . '%');
+            })
+            ->paginate(10);
 
         return view('admin.agencies.index', compact('data'));
     }

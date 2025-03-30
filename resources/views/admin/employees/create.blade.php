@@ -1,12 +1,12 @@
 @extends('layouts.admin.master')
 
-@section('title', __('employees'))
+@section('title', __('Employees'))
 
-@section('content-header', __('employees'))
+@section('content-header', __('Employees'))
 
 @section('breadcrumbs')
 <li class="breadcrumb-item">
-    <a href="{{route('admin.employees.index')}}">{{ __('employees') }}</a>
+    <a href="{{route('admin.employees.index')}}">{{ __('Employees') }}</a>
 </li>
 <li class="breadcrumb-item active">
     {{ __('Add Employee') }}
@@ -16,7 +16,7 @@
 @section('content')
 <!-- Multi Column with Form Separator -->
 <div class="card mb-4">
-        <h5 class="card-header">{{ __('Add employee') }}</h5>
+        <h5 class="card-header">{{ __('Add Employee') }}</h5>
         <form id="employeeForm" class="card-body" action="{{ route('admin.employees.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <hr class="mt-0" />

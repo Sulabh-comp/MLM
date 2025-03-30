@@ -1,22 +1,22 @@
 @extends('layouts.admin.master')
 
-@section('title', 'employees')
+@section('title', 'Employees')
 
 @section('content-header', __('Employees'))
 
 @section('breadcrumbs')
 <li class="breadcrumb-item">
-  <a href="{{route('admin.employees.index')}}">{{ __('employees') }}</a>
+  <a href="{{route('admin.employees.index')}}">{{ __('Employees') }}</a>
 </li>
 <li class="breadcrumb-item active">
-  {{ __('View employees') }}
+  {{ __('View Employees') }}
 </li>
 @endsection
 
 @section('content')
 <div class="card">
 <div class="card-header header-elements d-flex justify-content-between align-items-center">
-  <h5 class="m-0 me-2">{{ __('employees')}}</h5>
+  <h5 class="m-0 me-2">{{ __('Employees')}}</h5>
   <form class="form d-flex align-items-center" method="GET" action="#">
       <a href="{{route('admin.employees.create')}}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" title="{{__('Add New')}}"><i class="fa-solid fa-plus"></i>{{__('Add New')}}</a>
     </div>

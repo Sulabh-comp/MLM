@@ -32,7 +32,7 @@
     <li class="menu-item" id="users">
       <a href="{{route('admin.customers.index')}}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-users"></i>
-        <div>{{ __('customers') }}</div>
+        <div>{{ __('Customers') }}</div>
       </a>
     </li>
     <li class="menu-item" id="users">

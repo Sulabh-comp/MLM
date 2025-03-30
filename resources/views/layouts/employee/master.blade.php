@@ -134,7 +134,7 @@
                         <nav aria-label="breadcrumb" class="breadcrumb-padding">
                           <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                              <a href="{{ route('employee.dashboard') }}">{{__('home')}}</a>
+                              <a href="{{ route('employee.dashboard') }}">{{__('Home')}}</a>
                             </li>
                             @yield('breadcrumbs')
                           </ol>

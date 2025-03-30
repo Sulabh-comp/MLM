@@ -14,4 +14,14 @@ class FamilyMember extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+    
+    protected static function booted()
+    {
+        static::addGlobalScope('search', function ($builder) {
+            if ($search = request()->query('q')) {
+                $builder->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%');
+            }
+        });
+    }
 }

@@ -1,15 +1,15 @@
 @extends('layouts.admin.master')
 
-@section('title', __('employees'))
+@section('title', __('Employees'))
 
-@section('content-header', __('employees'))
+@section('content-header', __('Employees'))
 
 @section('breadcrumbs')
 <li class="breadcrumb-item">
-    <a href="{{route('admin.employees.index')}}">{{ __('employees') }}</a>
+    <a href="{{route('admin.employees.index')}}">{{ __('Employees') }}</a>
 </li>
 <li class="breadcrumb-item active">
-    {{ __('Edit employee') }}
+    {{ __('Edit Employee') }}
 </li>
 @endsection
 

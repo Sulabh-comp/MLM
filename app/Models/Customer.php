@@ -17,4 +17,14 @@ class Customer extends Model
     {
         return $this->hasMany(FamilyMember::class);
     }
+
+    protected static function booted()
+    {
+        static::addGlobalScope('search', function ($builder) {
+            if ($search = request()->query('q')) {
+                $builder->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%');
+            }
+        });
+    }
 }

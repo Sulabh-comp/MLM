@@ -36,6 +36,16 @@ class Agency extends Authenticatable
         return $this->hasMany(Notification::class,'user_id','id')->where('model', self::class);
     }
 
+    protected static function booted()
+    {
+        static::addGlobalScope('search', function ($builder) {
+            if ($search = request()->query('q')) {
+                $builder->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%');
+            }
+        });
+    }
+
     protected static function boot()
     {
         parent::boot();

@@ -1,15 +1,15 @@
 @extends('layouts.admin.master')
 
-@section('title', __('agencies'))
+@section('title', __('Agencies'))
 
-@section('content-header', __('agencies'))
+@section('content-header', __('Agencies'))
 
 @section('breadcrumbs')
 <li class="breadcrumb-item">
-    <a href="{{route('admin.agencies.index')}}">{{ __('agencies') }}</a>
+    <a href="{{route('admin.agencies.index')}}">{{ __('Agencies') }}</a>
 </li>
 <li class="breadcrumb-item active">
-    {{ __('add_agency') }}
+    {{ __('Add Agency') }}
 </li>
 @endsection
 
