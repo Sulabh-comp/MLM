@@ -3,8 +3,11 @@
 @section('content')
     <div class="container">
         <div class="row">
+            <div class="col-md-6">
+                <img src="{{ asset('logo.png') }}" alt="Login Banner" class="img-fluid" width="100%" style="object-fit: cover">
+            </div>
             <div class="col-md-6 col-md-offset-3">
-                <h2>Login</h2>
+                <h2>Login as an Agency</h2>
                 <form method="POST" action="{{ route('agency.login.post') }}">
                     {{ csrf_field() }}
                     <div class="form-group">

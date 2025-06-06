@@ -204,7 +204,7 @@ color: #fff!important;
 }
 .authentication-inner{
  display: grid;
- grid-template-columns: repeat(2, 1fr);
+ /* grid-template-columns: repeat(2, 1fr); */
   justify-content: center;
   align-items: center;
   margin: 0 auto;

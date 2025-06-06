@@ -4,7 +4,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <h2>Login</h2>
+                <img src="{{ asset('logo.png') }}" alt="Login Banner" class="img-fluid" width="100%" style="object-fit: cover">
+            </div>
+            <div class="col-md-6 col-md-offset-3">
+                <h2>Login As An Employee</h2>
                 <form method="POST" action="{{ route('employee.login.post') }}">
                     {{ csrf_field() }}
                     <div class="form-group">
