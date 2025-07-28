@@ -16,7 +16,7 @@ class Employee extends Authenticatable
     protected $guard = 'employee';
 
     protected $fillable = [
-        'name', 'email', 'phone', 'password', 'manager_id', 'region_id',
+        'name', 'email', 'phone', 'password',
     ];
 
     protected $hidden = [
@@ -26,16 +26,6 @@ class Employee extends Authenticatable
     public function agencies()
     {
         return $this->hasMany(Agency::class);
-    }
-
-    public function manager()
-    {
-        return $this->belongsTo(Manager::class);
-    }
-
-    public function region()
-    {
-        return $this->belongsTo(Region::class);
     }
 
     public function notifications()

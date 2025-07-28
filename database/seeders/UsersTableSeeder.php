@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
         $employee = new \App\Models\Employee();
         $employee->name = 'Employee';
         $employee->email = 'employee@mlm.com';
-        $employee->phone = '1234567895';
+        $employee->phone = '1234567890';
         $employee->designation = 'Employee';
         $employee->password = bcrypt('password');
         $employee->save();

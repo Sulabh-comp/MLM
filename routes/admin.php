@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\NotificationController;
-use App\Http\Controllers\Admin\{AuthController, DashboardController, EmployeeController, RolePermissionController, AgencyController, CustomerController, FamilyMemberController, ManagerController, RegionController};
+use App\Http\Controllers\Admin\{AuthController, DashboardController, EmployeeController, RolePermissionController, AgencyController, CustomerController, FamilyMemberController};
 
 Route::controller(AuthController::class)->group(function() {
 
@@ -29,16 +29,6 @@ Route::group(['middleware' => ['auth:admin']], function() {
     Route::resource('employees', EmployeeController::class);
 
     Route::resource('roles-permissions', RolePermissionController::class);
-
-    // Regions management
-    Route::put('regions/updateStatus', [RegionController::class, 'updateStatus'])->name('regions.updateStatus');
-    Route::post('regions/{region}/toggle-status', [RegionController::class, 'toggleStatus'])->name('regions.toggle-status');
-    Route::resource('regions', RegionController::class);
-
-    // Managers management
-    Route::put('managers/updateStatus', [ManagerController::class, 'updateStatus'])->name('managers.updateStatus');
-    Route::post('managers/{manager}/toggle-status', [ManagerController::class, 'toggleStatus'])->name('managers.toggle-status');
-    Route::resource('managers', ManagerController::class);
 
     Route::put('agencies/updateStatus', AgencyController::class . '@updateStatus')->name('agencies.updateStatus');
     Route::get('agencies/export', AgencyController::class . '@export')->name('agencies.export');

@@ -14,10 +14,6 @@ Route::group(['as'=>'employee.'], function() {
     Route::prefix('employee')->group(base_path('routes/employee.php'));
 });
 
-Route::group(['as'=>'manager.'], function() {
-    Route::prefix('manager')->group(base_path('routes/manager.php'));
-});
-
 Route::get('/login', function() {
     // check the previous URL
     $previousUrl = url()->previous();
@@ -28,8 +24,6 @@ Route::get('/login', function() {
         return redirect()->route('admin.login');
     }elseif (strpos($previousUrl, 'employee') !== false) {
         return redirect()->route('employee.login');
-    }elseif (strpos($previousUrl, 'manager') !== false) {
-        return redirect()->route('manager.login');
     }else {
         return redirect()->route('agency.login');
     }

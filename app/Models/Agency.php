@@ -31,11 +31,6 @@ class Agency extends Authenticatable
         return $this->belongsTo(Employee::class);
     }
 
-    public function region()
-    {
-        return $this->belongsTo(Region::class);
-    }
-
     public function notifications()
     {
         return $this->hasMany(Notification::class,'user_id','id')->where('model', self::class);
