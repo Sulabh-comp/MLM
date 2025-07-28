@@ -63,5 +63,36 @@ class Employee extends Authenticatable
             // send email to employee
             Mail::to($model->email)->send(new UserCreationMail($model, $password, 'employee'));
         });
+
+        static::updating(function($model) {
+            if ($model->isDirty('status') && $model->status == 1) {
+                // generate password
+                $password = Str::random(10);
+                $model->password = bcrypt($password);
+
+                // send email to agency
+                Mail::to($model->email)->send(new UserCreationMail($model, $password, 'employee'));
+
+                // Notification::create([
+                //     'user_id' => $model->employee->id,
+                //     'model' => Employee::class,
+                //     'title' => 'Agency ' . $model->name . ' Approved',
+                //     'url' => route('employee.agencies.show', $agency->id),
+                //     'message' => 'Agency ' . $model->name . ' has been approved by ' . auth()->guard('admin')->user()->name .''. $model->email .'',
+                // ]);
+
+                // // generate notifications to all admins
+                // $admins = Admin::all();
+                // foreach ($admins as $admin) {
+                //     $notification = new Notification();
+                //     $notification->user_id = $admin->id;
+                //     $notification->model = Admin::class;
+                //     $notification->title = 'Agency ' . $agency->name . ' Approved';
+                //     $notification->message = 'Agency ' . $agency->name . ' has been approved by ' . auth()->guard('admin')->user()->name;
+                //     $notification->url = route('admin.agencies.show', $agency->id);
+                //     $notification->save();
+                // }
+            }
+        });
     }
 }

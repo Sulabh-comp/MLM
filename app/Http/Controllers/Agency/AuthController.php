@@ -17,12 +17,12 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (auth()->guard('agency')->attempt($credentials)) {
-            return redirect()->route('agency.dashboard');
-        }
 
         if (auth()->guard('agency')->user()->status == 0) {
             auth()->guard('agency')->logout();
             return back()->with('error', 'Your account is not active');
+        }
+            return redirect()->route('agency.dashboard');
         }
 
         return back()->with('error', 'Invalid credentials');
