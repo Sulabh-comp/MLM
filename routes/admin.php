@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\NotificationController;
-use App\Http\Controllers\Admin\{AuthController, DashboardController, EmployeeController, RolePermissionController, AgencyController, CustomerController, FamilyMemberController};
+use App\Http\Controllers\Admin\{AuthController, DashboardController, EmployeeController, RolePermissionController, AgencyController, CustomerController, FamilyMemberController, ManagerController, RegionController};
 
 Route::controller(AuthController::class)->group(function() {
 
@@ -27,6 +27,14 @@ Route::group(['middleware' => ['auth:admin']], function() {
     Route::put('employees/updateStatus', EmployeeController::class . '@updateStatus')->name('employees.updateStatus');
 
     Route::resource('employees', EmployeeController::class);
+
+    Route::put('managers/updateStatus', ManagerController::class . '@updateStatus')->name('managers.updateStatus');
+
+    Route::resource('managers', ManagerController::class);
+
+    Route::put('regions/updateStatus', RegionController::class . '@updateStatus')->name('regions.updateStatus');
+
+    Route::resource('regions', RegionController::class);
 
     Route::resource('roles-permissions', RolePermissionController::class);
 

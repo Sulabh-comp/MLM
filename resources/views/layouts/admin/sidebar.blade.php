@@ -41,9 +41,24 @@
         <div>{{ __('Employees') }}</div>
       </a>
     </li>
+    
+    <li class="menu-item" id="managers">
+      <a href="{{route('admin.managers.index')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-user-star"></i>
+        <div>{{ __('Managers') }}</div>
+      </a>
+    </li>
+    
+    <li class="menu-item" id="regions">
+      <a href="{{route('admin.regions.index')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-map-2"></i>
+        <div>{{ __('Regions') }}</div>
+      </a>
+    </li>
+    
     <li class="menu-item" id="notifications">
       <a href="{{route('admin.notifications.index')}}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-users"></i>
+        <i class="menu-icon tf-icons ti ti-bell"></i>
         @php
             $unreadNotifications = auth()->guard('admin')->user()->notifications()->where('status', 0)->count();
         @endphp

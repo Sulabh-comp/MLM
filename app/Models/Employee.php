@@ -16,12 +16,23 @@ class Employee extends Authenticatable
     protected $guard = 'employee';
 
     protected $fillable = [
-        'name', 'email', 'phone', 'password',
+        'name', 'email', 'phone', 'password', 'region_id',
     ];
 
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
+
+    // Get all managers in the same region
+    public function managers()
+    {
+        return Manager::where('region_id', $this->region_id);
+    }
 
     public function agencies()
     {

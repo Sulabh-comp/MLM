@@ -52,6 +52,10 @@ return [
             'driver' => 'session',
             'provider' => 'employees',
         ],
+        'manager' => [
+            'driver' => 'session',
+            'provider' => 'managers',
+        ],
     ],
 
     /*
@@ -90,6 +94,11 @@ return [
         'employees' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\Employee::class),
+        ],
+
+        'managers' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\Manager::class),
         ],
     ],
 

@@ -141,6 +141,13 @@
         <p>Access your employee portal, view tasks, and manage associated Agencies.</p>
         <button onclick="window.location.href='{{route('employee.login')}}'">Login as Employee</button>
       </div>
+
+      <!-- Manager Card -->
+      <div class="card">
+        <h2>Manager</h2>
+        <p>Manage your regional operations, oversee employees and agencies in your assigned region.</p>
+        <button onclick="window.location.href='{{route('manager.login')}}'">Login as Manager</button>
+      </div>
     </div>
 
     <!-- Footer Section -->
