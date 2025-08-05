@@ -62,4 +62,43 @@ class DashboardController extends Controller
 
         return back()->with('success', 'Password changed successfully');
     }
+
+    public function profile()
+    {
+        $agency = auth()->guard('agency')->user();
+        return view('agency.profile.index', compact('agency'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:500',
+            'bank_name' => 'nullable|string|max:255',
+            'account_holder_name' => 'nullable|string|max:255',
+            'account_number' => 'nullable|string|max:50',
+            'ifsc_code' => 'nullable|string|max:20',
+            'branch_name' => 'nullable|string|max:255',
+            'aadhar_number' => 'nullable|string|size:12|regex:/^[0-9]{12}$/',
+            'pan_number' => 'nullable|string|size:10|regex:/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/',
+        ]);
+
+        $agency = auth()->guard('agency')->user();
+        
+        $updateData = $request->only([
+            'name', 'phone', 'address', 'bank_name', 'account_holder_name',
+            'account_number', 'ifsc_code', 'branch_name', 'aadhar_number', 'pan_number'
+        ]);
+
+        // If financial or identity documents are being updated, mark as submitted
+        if ($request->filled(['bank_name', 'account_number', 'ifsc_code', 'aadhar_number', 'pan_number'])) {
+            $updateData['documents_submitted_at'] = now();
+            $updateData['documents_verified'] = 0; // Reset verification status
+        }
+
+        $agency->update($updateData);
+
+        return back()->with('success', 'Profile updated successfully. Your documents will be verified by admin.');
+    }
 }

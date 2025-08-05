@@ -90,6 +90,19 @@ class AgencyController extends Controller
         return back()->with('success', 'Agency status updated successfully');
     }
 
+    public function verifyDocuments(Request $request, Agency $agency)
+    {
+        $agency->update([
+            'documents_verified' => $request->verified ? 1 : 0
+        ]);
+
+        $status = $request->verified ? 'verified' : 'rejected';
+        return response()->json([
+            'success' => true,
+            'message' => "Agency documents {$status} successfully"
+        ]);
+    }
+
     public function show(Agency $agency)
     {
         return view('admin.agencies.show', compact('agency'));

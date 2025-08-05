@@ -39,11 +39,15 @@ Route::group(['middleware' => ['auth:admin']], function() {
     Route::resource('roles-permissions', RolePermissionController::class);
 
     Route::put('agencies/updateStatus', AgencyController::class . '@updateStatus')->name('agencies.updateStatus');
+    Route::post('agencies/{agency}/verify-documents', [AgencyController::class, 'verifyDocuments'])->name('agencies.verify-documents');
     Route::get('agencies/export', AgencyController::class . '@export')->name('agencies.export');
 
     Route::resource('agencies', AgencyController::class);
 
     Route::put('customers/updateStatus', [CustomerController::class, 'updateStatus'])->name('customers.updateStatus');
+    Route::get('customers/export', [CustomerController::class, 'export'])->name('customers.export');
+    Route::get('customers/{customer}/export-family-members', [CustomerController::class, 'exportFamilyMembers'])->name('customers.export-family-members');
+    Route::get('customers/export-all-family-members', [CustomerController::class, 'exportAllFamilyMembers'])->name('customers.export-all-family-members');
 
     Route::resource('customers', CustomerController::class);
 

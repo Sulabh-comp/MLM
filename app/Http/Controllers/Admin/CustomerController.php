@@ -4,15 +4,69 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Agency;
 use App\Models\Customer;
+use App\Exports\CustomerExport;
+use App\Exports\FamilyMemberExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CustomerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Customer::latest()->paginate(10);
-        return view('admin.customers.index', compact('data'));
+        $query = Customer::latest()->with(['agency', 'familyMembers']);
+
+        // Apply filters
+        if ($request->filled('agency_id')) {
+            $query->where('agency_id', $request->agency_id);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('state')) {
+            $query->where('state', $request->state);
+        }
+
+        if ($request->filled('city')) {
+            $query->where('city', $request->city);
+        }
+
+        if ($request->filled('gender')) {
+            $query->where('gender', $request->gender);
+        }
+
+        if ($request->filled('religion')) {
+            $query->where('religion', $request->religion);
+        }
+
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
+        if ($request->filled('q')) {
+            $query->where(function($q) use ($request) {
+                $q->where('first_name', 'like', '%' . $request->q . '%')
+                  ->orWhere('last_name', 'like', '%' . $request->q . '%')
+                  ->orWhere('email', 'like', '%' . $request->q . '%')
+                  ->orWhere('phone', 'like', '%' . $request->q . '%');
+            });
+        }
+
+        $data = $query->paginate(10);
+        $agencies = Agency::where('status', 1)->get();
+        
+        // Get unique values for filters
+        $states = Customer::distinct()->pluck('state')->filter()->sort();
+        $cities = Customer::distinct()->pluck('city')->filter()->sort();
+        $religions = Customer::distinct()->pluck('religion')->filter()->sort();
+
+        return view('admin.customers.index', compact('data', 'agencies', 'states', 'cities', 'religions'));
     }
 
     public function create()
@@ -152,5 +206,26 @@ class CustomerController extends Controller
         $customer->save();
 
         return redirect()->route('admin.customers.index')->with('success', 'Customer status updated successfully');
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new CustomerExport($request->all()), 'customers_' . date('Y-m-d_H-i-s') . '.xlsx');
+    }
+
+    public function exportFamilyMembers(Customer $customer)
+    {
+        return Excel::download(
+            new FamilyMemberExport($customer->id), 
+            'family_members_' . str_replace(' ', '_', $customer->first_name . '_' . $customer->last_name) . '_' . date('Y-m-d_H-i-s') . '.xlsx'
+        );
+    }
+
+    public function exportAllFamilyMembers(Request $request)
+    {
+        return Excel::download(
+            new FamilyMemberExport(null, $request->all()), 
+            'all_family_members_filtered_' . date('Y-m-d_H-i-s') . '.xlsx'
+        );
     }
 }

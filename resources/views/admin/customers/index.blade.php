@@ -14,14 +14,119 @@
 @endsection
 
 @section('content')
+<!-- Filters Card -->
+<div class="card mb-4">
+  <div class="card-header">
+    <h5 class="mb-0">
+      <i class="ti ti-filter me-2"></i>Filters & Export
+    </h5>
+  </div>
+  <div class="card-body">
+    <form method="GET" action="{{ route('admin.customers.index') }}" id="filterForm">
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <label class="form-label">Search</label>
+          <input type="text" class="form-control" name="q" placeholder="Name, Email, Phone..." value="{{ request('q') }}">
+        </div>
+        <div class="col-md-3 mb-3">
+          <label class="form-label">Agency</label>
+          <select class="form-select" name="agency_id">
+            <option value="">All Agencies</option>
+            @foreach($agencies as $agency)
+              <option value="{{ $agency->id }}" {{ request('agency_id') == $agency->id ? 'selected' : '' }}>
+                {{ $agency->name }}
+              </option>
+            @endforeach
+          </select>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label class="form-label">Status</label>
+          <select class="form-select" name="status">
+            <option value="">All Status</option>
+            <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active</option>
+            <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Inactive</option>
+          </select>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label class="form-label">Gender</label>
+          <select class="form-select" name="gender">
+            <option value="">All Genders</option>
+            <option value="Male" {{ request('gender') === 'Male' ? 'selected' : '' }}>Male</option>
+            <option value="Female" {{ request('gender') === 'Female' ? 'selected' : '' }}>Female</option>
+            <option value="Other" {{ request('gender') === 'Other' ? 'selected' : '' }}>Other</option>
+          </select>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label class="form-label">State</label>
+          <select class="form-select" name="state">
+            <option value="">All States</option>
+            @foreach($states as $state)
+              <option value="{{ $state }}" {{ request('state') === $state ? 'selected' : '' }}>
+                {{ $state }}
+              </option>
+            @endforeach
+          </select>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label class="form-label">City</label>
+          <select class="form-select" name="city">
+            <option value="">All Cities</option>
+            @foreach($cities as $city)
+              <option value="{{ $city }}" {{ request('city') === $city ? 'selected' : '' }}>
+                {{ $city }}
+              </option>
+            @endforeach
+          </select>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label class="form-label">Religion</label>
+          <select class="form-select" name="religion">
+            <option value="">All Religions</option>
+            @foreach($religions as $religion)
+              <option value="{{ $religion }}" {{ request('religion') === $religion ? 'selected' : '' }}>
+                {{ $religion }}
+              </option>
+            @endforeach
+          </select>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label class="form-label">Date From</label>
+          <input type="date" class="form-control" name="date_from" value="{{ request('date_from') }}">
+        </div>
+        <div class="col-md-3 mb-3">
+          <label class="form-label">Date To</label>
+          <input type="date" class="form-control" name="date_to" value="{{ request('date_to') }}">
+        </div>
+        <div class="col-md-3 mb-3">
+          <label class="form-label">&nbsp;</label>
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">
+              <i class="ti ti-search me-1"></i>Filter
+            </button>
+            <a href="{{ route('admin.customers.index') }}" class="btn btn-outline-secondary">
+              <i class="ti ti-x me-1"></i>Clear
+            </a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div class="card">
   <div class="card-header header-elements d-flex justify-content-between align-items-center">
-    <h5 class="m-0 me-2">{{ __('Customers') }}</h5>
-    <form class="form d-flex align-items-center" method="GET" action="#">
-      <a href="{{ route('admin.customers.create') }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" title="{{ __('Add New') }}">
-        <i class="fa-solid fa-plus"></i>{{ __('Add New') }}
+    <h5 class="m-0 me-2">{{ __('Customers') }} ({{ $data->total() }} total)</h5>
+    <div class="d-flex gap-2">
+      <button type="button" class="btn btn-success" onclick="exportCustomers()">
+        <i class="ti ti-download me-1"></i>Export Filtered Data
+      </button>
+      <button type="button" class="btn btn-warning" onclick="exportAllFamilyMembers()">
+        <i class="ti ti-users me-1"></i>Export All Family Members
+      </button>
+      <a href="{{ route('admin.customers.create') }}" class="btn btn-primary">
+        <i class="fa-solid fa-plus me-1"></i>{{ __('Add New') }}
       </a>
-    </form>
+    </div>
   </div>
   <div class="table-responsive">
     <table class="table table-hover data-table">
@@ -33,6 +138,7 @@
           <th>{{ __('Phone') }}</th>
           <th>{{ __('Address') }}</th>
           <th>{{ __('Agency') }}</th>
+          <th>{{ __('Family Members') }}</th>
           <th>{{ __('Status') }}</th>
           <th>{{ __('Action') }}</th>
         </tr>
@@ -50,6 +156,14 @@
           <td>{{ $datum->phone }}</td>
           <td>{{ $datum->address_1 }}, {{ $datum->city }}, {{ $datum->state }}</td>
           <td>{{ $datum->agency->name }}</td>
+          <td>
+            <span class="badge bg-info">{{ $datum->familyMembers->count() }} Members</span>
+            @if($datum->familyMembers->count() > 0)
+              <a href="{{ route('admin.customers.export-family-members', $datum) }}" class="btn btn-outline-success btn-sm ms-1" title="Export Family Members">
+                <i class="ti ti-download"></i>
+              </a>
+            @endif
+          </td>
           <td>
             <span class="badge bg-label-{{ $datum->status ? 'success' : 'danger' }} me-1" id="statusText{{ $datum->id }}">
               {{ status_formatted($datum->status) }}
@@ -86,10 +200,10 @@
         @endforelse
       </tbody>
     </table>
-  </div>
-
     <div class="card-footer d-flex justify-content-center">
-    {{ $data->appends(request()->query())->links() }}
+      @if($data->hasPages())
+        {{ $data->render() }}
+      @endif
     </div>
 </div>
 
@@ -147,6 +261,44 @@
       document.getElementById('status').innerText = item.getAttribute('data-status') == 1 ? 'Inactive' : 'Active';
     });
   });
+
+  function deleteData(id) {
+    document.getElementById('deleteForm').action = `/admin/customers/${id}`;
+    $('#deleteModal').modal('show');
+  }
+
+  function exportCustomers() {
+    // Get all current filter parameters
+    const params = new URLSearchParams();
+    
+    // Add all form data from the filter form
+    const formData = new FormData(document.getElementById('filterForm'));
+    for (let [key, value] of formData.entries()) {
+      if (value) {
+        params.append(key, value);
+      }
+    }
+    
+    // Navigate to export URL with filters
+    window.location.href = `{{ route('admin.customers.export') }}?${params.toString()}`;
+  }
+
+  function exportAllFamilyMembers() {
+    // Get all current filter parameters
+    const params = new URLSearchParams();
+    
+    // Add all form data from the filter form
+    const formData = new FormData(document.getElementById('filterForm'));
+    for (let [key, value] of formData.entries()) {
+      if (value) {
+        params.append(key, value);
+      }
+    }
+    
+    // Navigate to export URL with filters
+    window.location.href = `{{ route('admin.customers.export-all-family-members') }}?${params.toString()}`;
+  }
+</script>
 
   function deleteData(id) {
     document.getElementById('deleteForm').action = `customers/${id}`;

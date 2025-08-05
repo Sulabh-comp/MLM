@@ -69,6 +69,106 @@
 </div>
 </div>
 
+<!-- Bank Details Card -->
+@if($agency->bank_name || $agency->account_number || $agency->aadhar_number || $agency->pan_number)
+<div class="card mt-4">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h5 class="mb-0">{{ __('Financial & Identity Details') }}</h5>
+    <div class="d-flex gap-2">
+      @if($agency->documents_verified)
+        <span class="badge bg-success">
+          <i class="ti ti-check me-1"></i>Verified
+        </span>
+      @elseif($agency->documents_submitted_at)
+        <span class="badge bg-warning">
+          <i class="ti ti-clock me-1"></i>Under Review
+        </span>
+        <button type="button" class="btn btn-sm btn-success" onclick="verifyDocuments({{ $agency->id }}, true)">
+          <i class="ti ti-check me-1"></i>Verify
+        </button>
+        <button type="button" class="btn btn-sm btn-danger" onclick="verifyDocuments({{ $agency->id }}, false)">
+          <i class="ti ti-x me-1"></i>Reject
+        </button>
+      @else
+        <span class="badge bg-secondary">
+          <i class="ti ti-alert-circle me-1"></i>Not Submitted
+        </span>
+      @endif
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <!-- Bank Details -->
+      @if($agency->bank_name || $agency->account_number)
+        <div class="col-md-12">
+          <h6 class="text-primary mb-3">
+            <i class="ti ti-building-bank me-2"></i>Bank Details
+          </h6>
+        </div>
+        @if($agency->bank_name)
+          <div class="col-md-6">
+            <h6>{{ __('Bank Name') }}</h6>
+            <p>{{ $agency->bank_name }}</p>
+          </div>
+        @endif
+        @if($agency->account_holder_name)
+          <div class="col-md-6">
+            <h6>{{ __('Account Holder Name') }}</h6>
+            <p>{{ $agency->account_holder_name }}</p>
+          </div>
+        @endif
+        @if($agency->account_number)
+          <div class="col-md-6">
+            <h6>{{ __('Account Number') }}</h6>
+            <p>{{ $agency->account_number }}</p>
+          </div>
+        @endif
+        @if($agency->ifsc_code)
+          <div class="col-md-6">
+            <h6>{{ __('IFSC Code') }}</h6>
+            <p>{{ $agency->ifsc_code }}</p>
+          </div>
+        @endif
+        @if($agency->branch_name)
+          <div class="col-md-6">
+            <h6>{{ __('Branch Name') }}</h6>
+            <p>{{ $agency->branch_name }}</p>
+          </div>
+        @endif
+      @endif
+
+      <!-- Identity Documents -->
+      @if($agency->aadhar_number || $agency->pan_number)
+        <div class="col-md-12 mt-4">
+          <h6 class="text-primary mb-3">
+            <i class="ti ti-id me-2"></i>Identity Documents
+          </h6>
+        </div>
+        @if($agency->aadhar_number)
+          <div class="col-md-6">
+            <h6>{{ __('Aadhar Number') }}</h6>
+            <p>{{ $agency->aadhar_number }}</p>
+          </div>
+        @endif
+        @if($agency->pan_number)
+          <div class="col-md-6">
+            <h6>{{ __('PAN Number') }}</h6>
+            <p>{{ $agency->pan_number }}</p>
+          </div>
+        @endif
+      @endif
+
+      @if($agency->documents_submitted_at)
+        <div class="col-md-6 mt-3">
+          <h6>{{ __('Documents Submitted At') }}</h6>
+          <p>{{ $agency->documents_submitted_at ? $agency->documents_submitted_at->format('d M, Y H:i') : 'Not submitted' }}</p>
+        </div>
+      @endif
+    </div>
+  </div>
+</div>
+@endif
+
 <div class="card mt-4">
   <div class="card-header">
     <h5>{{ __('Customers') }}</h5>
@@ -180,6 +280,28 @@
   function deleteCustomer(id) {
     document.getElementById('deleteForm').action = `customers/${id}`;
     $('#deleteModal').modal('show');
+  }
+
+  function verifyDocuments(agencyId, verified) {
+    const action = verified ? 'verify' : 'reject';
+    if (confirm(`Are you sure you want to ${action} these documents?`)) {
+      fetch(`/admin/agencies/${agencyId}/verify-documents`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ verified: verified })
+      })
+      .then(response => response.json())
+      .then(data => {
+        location.reload();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while updating document status');
+      });
+    }
   }
 
 </script>

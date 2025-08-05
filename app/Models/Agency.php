@@ -17,8 +17,19 @@ class Agency extends Authenticatable
 
     protected $guarded = ['id'];
 
+    protected $fillable = [
+        'name', 'email', 'phone', 'address', 'employee_id', 'status',
+        'bank_name', 'account_holder_name', 'account_number', 'ifsc_code', 'branch_name',
+        'aadhar_number', 'pan_number', 'documents_verified', 'documents_submitted_at'
+    ];
+
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    protected $casts = [
+        'documents_submitted_at' => 'datetime',
+        'last_notification_read_at' => 'datetime',
     ];
 
     public function customers()

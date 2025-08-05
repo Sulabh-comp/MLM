@@ -19,6 +19,10 @@ Route::controller(DashboardController::class)->group(function() {
 
     Route::post('change-password', 'changePassword')->name('change.password')->middleware(['auth:agency']);
 
+    Route::get('profile', 'profile')->name('profile')->middleware(['auth:agency']);
+
+    Route::post('profile', 'updateProfile')->name('profile.update')->middleware(['auth:agency']);
+
 });
 
 Route::group(['middleware' => ['auth:agency']], function() {

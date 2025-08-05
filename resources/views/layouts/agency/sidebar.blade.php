@@ -29,9 +29,22 @@
         <div>{{ __('Customers') }}</div>
       </a>
     </li>
+
+    <li class="menu-item" id="profile">
+      <a href="{{route('agency.profile')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-user-circle"></i>
+        <div>{{ __('Profile') }}</div>
+        @if(!auth()->guard('agency')->user()->documents_verified && auth()->guard('agency')->user()->documents_submitted_at)
+          <span class="badge bg-warning ms-auto">Pending</span>
+        @elseif(!auth()->guard('agency')->user()->aadhar_number || !auth()->guard('agency')->user()->pan_number || !auth()->guard('agency')->user()->account_number)
+          <span class="badge bg-danger ms-auto">Incomplete</span>
+        @endif
+      </a>
+    </li>
+
     <li class="menu-item" id="notifications">
       <a href="{{route('agency.notifications.index')}}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-users"></i>
+        <i class="menu-icon tf-icons ti ti-bell"></i>
         @php
             $unreadNotifications = auth()->guard('agency')->user()->notifications()->where('status', 0)->count();
         @endphp

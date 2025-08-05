@@ -31,6 +31,7 @@
           <th>{{__('Phone')}}</th>
           <th>{{__('Address')}}</th>
           <th>{{__('Number of Customers')}}</th>
+          <th>{{__('Documents')}}</th>
           <th>{{__('Status')}}</th>
           <th>{{__('Action')}}</th>
       </tr>
@@ -48,6 +49,25 @@
         <td>{{ $datum->phone }}</td>
         <td>{{ $datum->address }}</td>
         <td>{{ $datum->customers->count() }}</td>
+        <td>
+          @if($datum->documents_verified)
+            <span class="badge bg-success">
+              <i class="ti ti-check me-1"></i>Verified
+            </span>
+          @elseif($datum->documents_submitted_at)
+            <span class="badge bg-warning">
+              <i class="ti ti-clock me-1"></i>Pending
+            </span>
+          @elseif($datum->aadhar_number || $datum->pan_number || $datum->account_number)
+            <span class="badge bg-info">
+              <i class="ti ti-file me-1"></i>Partial
+            </span>
+          @else
+            <span class="badge bg-secondary">
+              <i class="ti ti-minus me-1"></i>None
+            </span>
+          @endif
+        </td>
         <td>
           <span class="badge bg-label-{{$datum->status ? 'success' : 'danger'}} me-1" id="statusText{{$datum->id}}">
             {{status_formatted($datum->status)}}
