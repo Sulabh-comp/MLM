@@ -26,6 +26,10 @@
 <div class="card-body">
   <div class="row">
     <div class="col-md-6">
+      <h6>{{ __('Agency Code') }}</h6>
+      <p><span class="badge bg-success">{{ $agency->code ?? 'N/A' }}</span></p>
+    </div>
+    <div class="col-md-6">
       <h6>{{ __('Name') }}</h6>
       <p>{{ $agency->name }}</p>
     </div>

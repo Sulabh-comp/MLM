@@ -25,6 +25,7 @@
   <table class="table table-hover data-table">
     <thead class="border-top">
       <tr>
+        <th>{{ __('Code') }}</th>
         <th>{{ __('Name') }}</th>
         <th>{{ __('Email') }}</th>
         <th>{{ __('Phone') }}</th>
@@ -38,6 +39,7 @@
     <tbody class="table-border-bottom-0">
       @forelse ($data as $manager)
         <tr>
+          <td><span class="badge bg-warning">{{ $manager->code ?? 'N/A' }}</span></td>
           <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{ $manager->name }}</strong></td>
           <td>{{ $manager->email }}</td>
           <td>{{ $manager->phone }}</td>
@@ -68,7 +70,7 @@
     </tbody>
   </table>
   <div class="d-flex justify-content-center mt-3">
-    {{ $data->appends(request()->query())->links() }}
+    {{ $data->appends(request()->query())->render() }}
   </div>
 </div>
 

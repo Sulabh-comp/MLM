@@ -29,6 +29,10 @@
   <div class="card-body">
     <div class="row">
       <div class="col-md-6">
+        <h6>{{ __('Customer Code') }}</h6>
+        <p><span class="badge bg-primary">{{ $customer->code ?? 'N/A' }}</span></p>
+      </div>
+      <div class="col-md-6">
         <h6>{{ __('First Name') }}</h6>
         <p>{{ $customer->first_name }}</p>
       </div>
@@ -117,6 +121,7 @@
       <table class="table table-bordered">
         <thead>
           <tr>
+            <th>{{ __('Code') }}</th>
             <th>{{ __('Name') }}</th>
             <th>{{ __('Position') }}</th>
             <th>{{ __('Age') }}</th>
@@ -129,6 +134,7 @@
         <tbody>
           @foreach($customer->familyMembers as $familyMember)
             <tr>
+              <td><span class="badge bg-info">{{ $familyMember->code ?? 'N/A' }}</span></td>
               <td>{{ $familyMember->name }}</td>
               <td>{{ $familyMember->position }}</td>
               <td>{{ $familyMember->age }}</td>
@@ -152,7 +158,7 @@
       </table>
 
     <div class="card-footer d-flex justify-content-center">
-        {{ $customer->familyMembers>appends(request()->query())->links() }}
+        {{ $customer->familyMembers()->appends(request()->query())->links() }}
     </div>
     @endif
   </div>

@@ -71,6 +71,8 @@ class FamilyMemberExport implements FromCollection, WithHeadings, WithMapping, W
     {
         return [
             'ID',
+            'Family Member Code',
+            'Customer Code',
             'Customer Name',
             'Customer Email',
             'Member Name',
@@ -109,6 +111,8 @@ class FamilyMemberExport implements FromCollection, WithHeadings, WithMapping, W
     {
         return [
             $familyMember->id,
+            $familyMember->code ?? 'N/A',
+            $familyMember->customer->code ?? 'N/A',
             $familyMember->customer->first_name . ' ' . $familyMember->customer->last_name,
             $familyMember->customer->email,
             $familyMember->name ?? 'N/A',

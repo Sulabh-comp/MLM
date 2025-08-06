@@ -71,6 +71,7 @@ class CustomerExport implements FromCollection, WithHeadings, WithMapping, WithS
     {
         return [
             'ID',
+            'Customer Code',
             'Sponsor Code',
             'First Name',
             'Last Name',
@@ -101,6 +102,7 @@ class CustomerExport implements FromCollection, WithHeadings, WithMapping, WithS
     {
         return [
             $customer->id,
+            $customer->code ?? 'N/A',
             $customer->sponcer_code ?? 'N/A',
             $customer->first_name,
             $customer->last_name,

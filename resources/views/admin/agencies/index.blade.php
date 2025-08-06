@@ -26,6 +26,7 @@
     <thead class="border-top">
       <tr>
           <th>{{__('S. No')}}</th>
+          <th>{{__('Code')}}</th>
           <th>{{__('Name')}}</th>
           <th>{{__('Email')}}</th>
           <th>{{__('Phone')}}</th>
@@ -40,6 +41,7 @@
       @forelse($data as $key => $datum)
       <tr>
         <td><span class="fw-medium">{{ $key + 1 }}</span></td>
+        <td><span class="badge bg-success">{{ $datum->code ?? 'N/A' }}</span></td>
         <td>
           <a class="dropdown-item" href="{{ route('admin.agencies.show', $datum) }}" class="dropdown-item">
             {{ $datum->name }}
@@ -100,7 +102,7 @@
   </table>
 
 <div class="card-footer d-flex justify-content-center">
-    {{ $data->appends(request()->query())->links() }}
+    {{ $data->appends(request()->query())->render() }}
 </div>
 </div>
 

@@ -32,6 +32,10 @@
   <div class="card-body">
     <div class="row">
       <div class="col-md-6">
+        <h6>{{ __('Family Member Code') }}</h6>
+        <p><span class="badge bg-info">{{ $familyMember->code ?? 'N/A' }}</span></p>
+      </div>
+      <div class="col-md-6">
         <h6>{{ __('Name') }}</h6>
         <p>{{ $familyMember->name }}</p>
       </div>

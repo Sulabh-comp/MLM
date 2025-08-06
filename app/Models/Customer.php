@@ -18,6 +18,18 @@ class Customer extends Model
         return $this->hasMany(FamilyMember::class);
     }
 
+    /**
+     * Generate unique code: CUS + First 2 letters of first name + First 2 letters of last name + Zero-padded ID
+     */
+    public function generateCode()
+    {
+        $firstName = strtoupper(substr($this->first_name ?? '', 0, 2));
+        $lastName = strtoupper(substr($this->last_name ?? '', 0, 2));
+        $paddedId = str_pad($this->id, 4, '0', STR_PAD_LEFT);
+        
+        return 'CUS' . $firstName . $lastName . $paddedId;
+    }
+
     protected static function booted()
     {
         static::addGlobalScope('search', function ($builder) {
@@ -26,6 +38,10 @@ class Customer extends Model
                         ->orWhere('last_name', 'like', '%' . $search . '%')
                         ->orWhere('email', 'like', '%' . $search . '%');
             }
+        });
+
+        static::created(function ($customer) {
+            $customer->update(['code' => $customer->generateCode()]);
         });
     }
 }

@@ -95,6 +95,6 @@ return new class extends Migration
 
         Schema::dropIfExists('customers');
 
-        Schema::dropIfExists('family_members');
+        Schema::dropIfExists('family-members');
     }
 };
