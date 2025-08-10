@@ -25,14 +25,14 @@ class RegionController extends Controller
             'name' => 'required|unique:regions,name',
             'code' => 'required|unique:regions,code|max:10',
             'description' => 'nullable',
-            'states' => 'nullable|array',
+            'states' => 'nullable|string',
         ]);
 
         $region = new Region();
         $region->name = $request->name;
         $region->code = strtoupper($request->code);
         $region->description = $request->description;
-        $region->states = $request->states ?? [];
+        $region->states = explode(',', $request->states ?? '');
         $region->save();
 
         return redirect()->route('admin.regions.index')->with('success', 'Region created successfully');
@@ -49,13 +49,13 @@ class RegionController extends Controller
             'name' => 'required|unique:regions,name,' . $region->id,
             'code' => 'required|unique:regions,code,' . $region->id . '|max:10',
             'description' => 'nullable',
-            'states' => 'nullable|array',
+            'states' => 'nullable|string',
         ]);
 
         $region->name = $request->name;
         $region->code = strtoupper($request->code);
         $region->description = $request->description;
-        $region->states = $request->states ?? [];
+        $region->states = explode(',', $request->states ?? '');
         $region->save();
 
         return redirect()->route('admin.regions.index')->with('success', 'Region updated successfully');

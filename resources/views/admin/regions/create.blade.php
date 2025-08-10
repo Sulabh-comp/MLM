@@ -46,16 +46,4 @@
         </form>
 </div>
 
-@section('scripts')
-    <script>
-    document.getElementById("regionForm").addEventListener("submit", function(event) {
-        // Convert states string to array
-        const statesInput = document.getElementById('states');
-        if (statesInput.value) {
-            const statesArray = statesInput.value.split(',').map(state => state.trim());
-            statesInput.value = JSON.stringify(statesArray);
-        }
-    });
-    </script>
-@endsection
 @endsection
