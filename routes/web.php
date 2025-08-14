@@ -40,9 +40,9 @@ Route::get('/login', function() {
 })->name('login');
 
 Route::get('/deploy', function() {
-    Artisan::call('migrate:fresh', [
-        '--seed' => true
-    ]);
+    // Artisan::call('migrate:fresh', [
+    //     '--seed' => true
+    // ]);
 
     return 'Database reset and seeded!';
 });
