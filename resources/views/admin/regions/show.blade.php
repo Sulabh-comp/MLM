@@ -50,18 +50,6 @@
                     @endif
                 </p>
             </div>
-            <div class="col-md-12">
-                <h6>{{ __('States') }}</h6>
-                <p>
-                    @if(is_array($region->states) && count($region->states) > 0)
-                        @foreach($region->states as $state)
-                            <span class="badge bg-info me-1">{{ trim($state) }}</span>
-                        @endforeach
-                    @else
-                        {{ __('No states assigned') }}
-                    @endif
-                </p>
-            </div>
             <div class="col-md-6">
                 <h6>{{ __('Managers Count') }}</h6>
                 <p><span class="badge bg-warning">{{ $region->managers->count() }}</span></p>

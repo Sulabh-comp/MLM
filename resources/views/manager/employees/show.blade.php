@@ -39,9 +39,25 @@
                     <div class="col-md-9">{{ $employee->designation ?? 'N/A' }}</div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-3"><strong>Region:</strong></div>
+                    <div class="col-md-3"><strong>Manager:</strong></div>
                     <div class="col-md-9">
-                        <span class="badge bg-label-info">{{ $employee->region->name }}</span>
+                        @if($employee->manager)
+                            <div class="d-flex align-items-center">
+                                <div class="avatar avatar-sm me-2">
+                                    <span class="avatar-initial rounded-circle bg-label-primary">
+                                        {{ substr($employee->manager->name, 0, 1) }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="fw-semibold">{{ $employee->manager->name }}</span>
+                                    @if($employee->manager->level_name)
+                                        <br><small class="text-muted">{{ $employee->manager->level_name }}</small>
+                                    @endif
+                                </div>
+                            </div>
+                        @else
+                            <span class="text-muted">Not Assigned</span>
+                        @endif
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -69,9 +85,26 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
-                <h6 class="card-title mb-0">Statistics</h6>
+                <h6 class="card-title mb-0">Hierarchy & Statistics</h6>
             </div>
             <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-primary">
+                            <i class="ti ti-user-check"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <p class="mb-0">Direct Manager</p>
+                        <h6 class="mb-0">
+                            {{ $employee->manager ? $employee->manager->name : 'Not Assigned' }}
+                        </h6>
+                        @if($employee->manager && $employee->manager->level_name)
+                            <small class="text-muted">{{ $employee->manager->level_name }}</small>
+                        @endif
+                    </div>
+                </div>
+                
                 <div class="d-flex align-items-center mb-3">
                     <div class="avatar flex-shrink-0 me-3">
                         <span class="avatar-initial rounded bg-label-success">
@@ -95,8 +128,50 @@
                         <h6 class="mb-0">{{ $employee->agencies()->withCount('customers')->get()->sum('customers_count') }}</h6>
                     </div>
                 </div>
+
+                @if($employee->manager)
+                <hr>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-warning">
+                            <i class="ti ti-sitemap"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <p class="mb-0">Hierarchy Colleagues</p>
+                        <h6 class="mb-0">{{ $employee->colleagues()->count() }}</h6>
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
+
+        @if($employee->agencies()->count() > 0)
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Assigned Agencies</h6>
+            </div>
+            <div class="card-body">
+                @foreach($employee->agencies()->limit(5)->get() as $agency)
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="avatar avatar-sm me-2">
+                            <span class="avatar-initial rounded-circle bg-label-info">
+                                {{ substr($agency->name, 0, 1) }}
+                            </span>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">{{ $agency->name }}</h6>
+                            <small class="text-muted">{{ $agency->customers()->count() }} customers</small>
+                        </div>
+                    </div>
+                @endforeach
+                
+                @if($employee->agencies()->count() > 5)
+                    <small class="text-muted">And {{ $employee->agencies()->count() - 5 }} more agencies...</small>
+                @endif
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 @endsection

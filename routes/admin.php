@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\NotificationController;
-use App\Http\Controllers\Admin\{AuthController, DashboardController, EmployeeController, RolePermissionController, AgencyController, CustomerController, FamilyMemberController, ManagerController, RegionController};
+use App\Http\Controllers\Admin\{AuthController, DashboardController, EmployeeController, RolePermissionController, AgencyController, CustomerController, FamilyMemberController, ManagerController, RegionController, ManagerLevelController};
 
 Route::controller(AuthController::class)->group(function() {
 
@@ -29,8 +29,19 @@ Route::group(['middleware' => ['auth:admin']], function() {
     Route::resource('employees', EmployeeController::class);
 
     Route::put('managers/updateStatus', ManagerController::class . '@updateStatus')->name('managers.updateStatus');
+    
+    // Hierarchy-specific manager routes
+    Route::get('managers/hierarchy', [ManagerController::class, 'hierarchy'])->name('managers.hierarchy');
+    Route::get('managers/hierarchy-tree', [ManagerController::class, 'hierarchyTree'])->name('managers.hierarchy-tree');
+    Route::get('managers/level-options', [ManagerController::class, 'getLevelOptions'])->name('managers.level-options');
+    Route::get('managers/recommended-parent', [ManagerController::class, 'getRecommendedParent'])->name('managers.recommended-parent');
+    Route::post('managers/bulk-action', [ManagerController::class, 'bulkAction'])->name('managers.bulk-action');
 
     Route::resource('managers', ManagerController::class);
+
+    Route::put('manager-levels/toggle-status/{managerLevel}', [ManagerLevelController::class, 'toggleStatus'])->name('manager-levels.toggle-status');
+
+    Route::resource('manager-levels', ManagerLevelController::class);
 
     Route::put('regions/updateStatus', RegionController::class . '@updateStatus')->name('regions.updateStatus');
 

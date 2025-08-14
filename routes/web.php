@@ -40,44 +40,9 @@ Route::get('/login', function() {
 })->name('login');
 
 Route::get('/deploy', function() {
-    try {
-        // Add code column to customers table
-        Schema::table('customers', function (Blueprint $table) {
-            if (!Schema::hasColumn('customers', 'code')) {
-                $table->string('code')->unique()->nullable()->after('id');
-            }
-        });
+    Artisan::call('migrate:fresh', [
+        '--seed' => true
+    ]);
 
-        // Add code column to employees table
-        Schema::table('employees', function (Blueprint $table) {
-            if (!Schema::hasColumn('employees', 'code')) {
-                $table->string('code')->unique()->nullable()->after('id');
-            }
-        });
-
-        // Add code column to agencies table
-        Schema::table('agencies', function (Blueprint $table) {
-            if (!Schema::hasColumn('agencies', 'code')) {
-                $table->string('code')->unique()->nullable()->after('id');
-            }
-        });
-
-        // Add code column to managers table
-        Schema::table('managers', function (Blueprint $table) {
-            if (!Schema::hasColumn('managers', 'code')) {
-                $table->string('code')->unique()->nullable()->after('id');
-            }
-        });
-
-        // Add code column to family-members table
-        Schema::table('family-members', function (Blueprint $table) {
-            if (!Schema::hasColumn('family-members', 'code')) {
-                $table->string('code')->unique()->nullable()->after('id');
-            }
-        });
-
-        return "Code columns added successfully.";
-     } catch (\Exception $e) {
-        return "Error: " . $e->getMessage();
-    }
+    return 'Database reset and seeded!';
 });

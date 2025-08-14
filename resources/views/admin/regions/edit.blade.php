@@ -34,11 +34,6 @@
                             <label for="description" class="form-label">{{ __('Description') }}</label>
                             <textarea class="form-control" id="description" name="description" placeholder="{{ __('Region Description') }}">{{ old('description', $region->description) }}</textarea>
                     </div>
-                    <div class="mb-3 col-12">
-                            <label for="states" class="form-label">{{ __('States') }}</label>
-                            <input type="text" class="form-control" id="states" name="states" placeholder="{{ __('Enter states separated by commas') }}" value="{{ old('states', is_array($region->states) ? implode(', ', $region->states) : $region->states) }}">
-                            <div class="form-text">{{ __('Enter states separated by commas (e.g., Delhi, Punjab, Haryana)') }}</div>
-                    </div>
                 </div>
                 <div class="pt-4">
                         <button type="submit" class="btn btn-primary me-sm-3 me-1">{{ __('Update') }}</button>

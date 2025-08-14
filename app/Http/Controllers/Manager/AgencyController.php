@@ -11,8 +11,11 @@ class AgencyController extends Controller
     public function index()
     {
         $manager = auth()->guard('manager')->user();
+        
+        // Get agencies through manager's territorial employees (including subordinates)
         $agencies = Agency::whereHas('employee', function($query) use ($manager) {
-                    $query->where('region_id', $manager->region_id);
+                    $query->where('manager_id', $manager->id)
+                          ->orWhereIn('manager_id', $manager->getSubordinatesByPath()->pluck('id'));
                 })
                 ->with('employee')
                 ->withCount('customers')
@@ -27,8 +30,9 @@ class AgencyController extends Controller
     public function show(Agency $agency)
     {
         $manager = auth()->guard('manager')->user();
-        // Check if agency belongs to manager's region
-        if($agency->employee->region_id !== $manager->region_id) {
+        
+        // Check if agency belongs to manager's territory (direct or through subordinates)
+        if (!$manager->canAccessAgency($agency)) {
             abort(403, 'Unauthorized access to agency data.');
         }
 
@@ -38,9 +42,13 @@ class AgencyController extends Controller
     public function create()
     {
         $manager = auth()->guard('manager')->user();
-        $employees = Employee::where('region_id', $manager->region_id)
+        
+        // Get employees in manager's territory (direct reports and subordinates' employees)
+        $employees = Employee::where('manager_id', $manager->id)
+                            ->orWhereIn('manager_id', $manager->getSubordinatesByPath()->pluck('id'))
                             ->where('status', 1)
                             ->get();
+                            
         return view('manager.agencies.create', compact('employees'));
     }
 
@@ -56,10 +64,10 @@ class AgencyController extends Controller
             'employee_id' => 'required|exists:employees,id',
         ]);
 
-        // Verify employee belongs to manager's region
+        // Verify employee belongs to manager's territory
         $employee = Employee::find($request->employee_id);
-        if($employee->region_id !== $manager->region_id) {
-            return back()->with('error', 'You can only assign agencies to employees in your region.');
+        if (!$manager->canAccessEmployee($employee)) {
+            return back()->with('error', 'You can only assign agencies to employees in your territory.');
         }
 
         $agency = new Agency();
@@ -77,22 +85,26 @@ class AgencyController extends Controller
     public function edit(Agency $agency)
     {
         $manager = auth()->guard('manager')->user();
-        // Check if agency belongs to manager's region
-        if($agency->employee->region_id !== $manager->region_id) {
+        
+        // Check if agency belongs to manager's territory
+        if (!$manager->canAccessAgency($agency)) {
             abort(403, 'Unauthorized access to agency data.');
         }
 
-        $employees = Employee::where('region_id', $manager->region_id)
+        $employees = Employee::where('manager_id', $manager->id)
+                            ->orWhereIn('manager_id', $manager->getSubordinatesByPath()->pluck('id'))
                             ->where('status', 1)
                             ->get();
+                            
         return view('manager.agencies.edit', compact('agency', 'employees'));
     }
 
     public function update(Request $request, Agency $agency)
     {
         $manager = auth()->guard('manager')->user();
-        // Check if agency belongs to manager's region
-        if($agency->employee->region_id !== $manager->region_id) {
+        
+        // Check if agency belongs to manager's territory
+        if (!$manager->canAccessAgency($agency)) {
             abort(403, 'Unauthorized access to agency data.');
         }
 
@@ -104,10 +116,10 @@ class AgencyController extends Controller
             'employee_id' => 'required|exists:employees,id',
         ]);
 
-        // Verify employee belongs to manager's region
+        // Verify employee belongs to manager's territory
         $employee = Employee::find($request->employee_id);
-        if($employee->region_id !== $manager->region_id) {
-            return back()->with('error', 'You can only assign agencies to employees in your region.');
+        if (!$manager->canAccessEmployee($employee)) {
+            return back()->with('error', 'You can only assign agencies to employees in your territory.');
         }
 
         $agency->name = $request->name;
@@ -123,8 +135,9 @@ class AgencyController extends Controller
     public function destroy(Agency $agency)
     {
         $manager = auth()->guard('manager')->user();
-        // Check if agency belongs to manager's region
-        if($agency->employee->region_id !== $manager->region_id) {
+        
+        // Check if agency belongs to manager's territory
+        if (!$manager->canAccessAgency($agency)) {
             abort(403, 'Unauthorized access to agency data.');
         }
 
@@ -137,8 +150,8 @@ class AgencyController extends Controller
         $manager = auth()->guard('manager')->user();
         $agency = Agency::find($request->id);
         
-        // Check if agency belongs to manager's region
-        if($agency->employee->region_id !== $manager->region_id) {
+        // Check if agency belongs to manager's territory
+        if (!$manager->canAccessAgency($agency)) {
             abort(403, 'Unauthorized access to agency data.');
         }
 

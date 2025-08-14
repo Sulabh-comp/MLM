@@ -1,7 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Manager\{AuthController, DashboardController, EmployeeController, AgencyController, CustomerController, RegionController, NotificationController};
+use App\Http\Controllers\Manager\{
+    AuthController, 
+    DashboardController, 
+    EmployeeController, 
+    AgencyController, 
+    CustomerController, 
+    RegionController, 
+    NotificationController,
+    ManagerController
+};
 
 Route::controller(AuthController::class)->group(function() {
 
@@ -38,5 +47,10 @@ Route::group(['middleware' => ['auth:manager']], function() {
     Route::resource('regions', RegionController::class)->only(['index', 'show']);
 
     Route::resource('notifications', NotificationController::class);
+
+    // Manager hierarchy management routes
+    Route::get('managers/hierarchy-tree', [ManagerController::class, 'hierarchyTree'])->name('managers.hierarchy-tree');
+    Route::put('managers/updateStatus', [ManagerController::class, 'updateStatus'])->name('managers.updateStatus');
+    Route::resource('managers', ManagerController::class);
 
 });

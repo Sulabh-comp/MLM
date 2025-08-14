@@ -11,8 +11,11 @@ class CustomerController extends Controller
     public function index()
     {
         $manager = auth()->guard('manager')->user();
+        
+        // Get customers through manager's territorial employees (including subordinates)
         $customers = Customer::whereHas('agency.employee', function($query) use ($manager) {
-                    $query->where('region_id', $manager->region_id);
+                    $query->where('manager_id', $manager->id)
+                          ->orWhereIn('manager_id', $manager->getSubordinatesByPath()->pluck('id'));
                 })
                 ->with(['agency', 'familyMembers'])
                 ->withCount('familyMembers')
@@ -32,8 +35,9 @@ class CustomerController extends Controller
     public function show(Customer $customer)
     {
         $manager = auth()->guard('manager')->user();
-        // Check if customer belongs to manager's region
-        if($customer->agency->employee->region_id !== $manager->region_id) {
+        
+        // Check if customer belongs to manager's territory
+        if (!$manager->canAccessCustomer($customer)) {
             abort(403, 'Unauthorized access to customer data.');
         }
 
@@ -44,11 +48,15 @@ class CustomerController extends Controller
     {
         $manager = auth()->guard('manager')->user();
         $customer = new Customer();
+        
+        // Get agencies in manager's territory (through territorial employees)
         $agencies = Agency::whereHas('employee', function($query) use ($manager) {
-                        $query->where('region_id', $manager->region_id);
+                        $query->where('manager_id', $manager->id)
+                              ->orWhereIn('manager_id', $manager->getSubordinatesByPath()->pluck('id'));
                     })
                     ->where('status', 1)
                     ->get();
+                    
         return view('manager.customers.create', compact('customer', 'agencies'));
     }
 
@@ -78,10 +86,10 @@ class CustomerController extends Controller
             'status' => 'required|in:0,1',
         ]);
 
-        // Verify agency belongs to manager's region
+        // Verify agency belongs to manager's territory
         $agency = Agency::find($request->agency_id);
-        if($agency->employee->region_id !== $manager->region_id) {
-            return back()->with('error', 'You can only create customers for agencies in your region.');
+        if (!$manager->canAccessAgency($agency)) {
+            return back()->with('error', 'You can only create customers for agencies in your territory.');
         }
 
         // Create a new customer
@@ -112,24 +120,29 @@ class CustomerController extends Controller
     public function edit(Customer $customer)
     {
         $manager = auth()->guard('manager')->user();
-        // Check if customer belongs to manager's region
-        if($customer->agency->employee->region_id !== $manager->region_id) {
+        
+        // Check if customer belongs to manager's territory
+        if (!$manager->canAccessCustomer($customer)) {
             abort(403, 'Unauthorized access to customer data.');
         }
 
+        // Get agencies in manager's territory
         $agencies = Agency::whereHas('employee', function($query) use ($manager) {
-                        $query->where('region_id', $manager->region_id);
+                        $query->where('manager_id', $manager->id)
+                              ->orWhereIn('manager_id', $manager->getSubordinatesByPath()->pluck('id'));
                     })
                     ->where('status', 1)
                     ->get();
+                    
         return view('manager.customers.edit', compact('customer', 'agencies'));
     }
 
     public function update(Request $request, Customer $customer)
     {
         $manager = auth()->guard('manager')->user();
-        // Check if customer belongs to manager's region
-        if($customer->agency->employee->region_id !== $manager->region_id) {
+        
+        // Check if customer belongs to manager's territory
+        if (!$manager->canAccessCustomer($customer)) {
             abort(403, 'Unauthorized access to customer data.');
         }
 
@@ -155,10 +168,10 @@ class CustomerController extends Controller
             'status' => 'required|in:0,1',
         ]);
 
-        // Verify agency belongs to manager's region
+        // Verify agency belongs to manager's territory
         $agency = Agency::find($request->agency_id);
-        if($agency->employee->region_id !== $manager->region_id) {
-            return back()->with('error', 'You can only assign customers to agencies in your region.');
+        if (!$manager->canAccessAgency($agency)) {
+            return back()->with('error', 'You can only assign customers to agencies in your territory.');
         }
 
         // Update the customer
@@ -170,8 +183,9 @@ class CustomerController extends Controller
     public function destroy(Customer $customer)
     {
         $manager = auth()->guard('manager')->user();
-        // Check if customer belongs to manager's region
-        if($customer->agency->employee->region_id !== $manager->region_id) {
+        
+        // Check if customer belongs to manager's territory
+        if (!$manager->canAccessCustomer($customer)) {
             abort(403, 'Unauthorized access to customer data.');
         }
 
@@ -185,8 +199,8 @@ class CustomerController extends Controller
         $manager = auth()->guard('manager')->user();
         $customer = Customer::findOrFail($request->id);
         
-        // Check if customer belongs to manager's region
-        if($customer->agency->employee->region_id !== $manager->region_id) {
+        // Check if customer belongs to manager's territory
+        if (!$manager->canAccessCustomer($customer)) {
             abort(403, 'Unauthorized access to customer data.');
         }
 

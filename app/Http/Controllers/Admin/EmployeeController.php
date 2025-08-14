@@ -74,7 +74,7 @@ class EmployeeController extends Controller
     {
         $employee->delete();
 
-        return redirect()->route('employees.index')->with('success', 'Employee deleted successfully');
+        return redirect()->route('admin.employees.index')->with('success', 'Employee deleted successfully');
     }
 
     public function updateStatus(Request $request)

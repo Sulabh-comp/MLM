@@ -76,6 +76,15 @@ class Agency extends Authenticatable
 
         static::created(function ($agency) {
             $agency->update(['code' => $agency->generateCode()]);
+
+            // send mail to agency with email
+            $password = Str::random(10);
+            $agency->password = bcrypt($password);
+            $agency->saveQuietly();
+
+            // send email to agency
+            Mail::to($agency->email)->send(new UserCreationMail($agency, $password, 'agency'));
+
         });
 
         static::creating(function($agency) {

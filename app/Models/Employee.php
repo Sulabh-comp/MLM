@@ -16,22 +16,32 @@ class Employee extends Authenticatable
     protected $guard = 'employee';
 
     protected $fillable = [
-        'name', 'email', 'phone', 'password', 'region_id',
+        'name', 'email', 'phone', 'password', 'manager_id',
     ];
 
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    public function region()
+    /**
+     * Get the manager that this employee reports to
+     */
+    public function manager()
     {
-        return $this->belongsTo(Region::class);
+        return $this->belongsTo(Manager::class);
     }
 
-    // Get all managers in the same region
-    public function managers()
+    /**
+     * Get all managers accessible to this employee (through hierarchy)
+     */
+    public function accessibleManagers()
     {
-        return Manager::where('region_id', $this->region_id);
+        if (!$this->manager) {
+            return collect();
+        }
+
+        // Employee can access their direct manager only (not subordinate managers)
+        return collect([$this->manager]);
     }
 
     public function agencies()
@@ -42,6 +52,99 @@ class Employee extends Authenticatable
     public function notifications()
     {
         return $this->hasMany(Notification::class,'user_id','id')->where('model', self::class);
+    }
+
+    /**
+     * Get customers accessible through this employee's agencies
+     */
+    public function customers()
+    {
+        return Customer::whereHas('agency', function($query) {
+            $query->where('employee_id', $this->id);
+        });
+    }
+
+    /**
+     * Check if employee can access a specific manager
+     */
+    public function canAccessManager(Manager $manager)
+    {
+        return $this->accessibleManagers()->contains('id', $manager->id);
+    }
+
+    /**
+     * Check if employee can access a specific agency
+     */
+    public function canAccessAgency(Agency $agency)
+    {
+        return $this->agencies()->where('id', $agency->id)->exists();
+    }
+
+    /**
+     * Check if employee can access a specific customer
+     */
+    public function canAccessCustomer(Customer $customer)
+    {
+        return $this->customers()->where('id', $customer->id)->exists();
+    }
+
+    /**
+     * Get the territorial scope based on manager hierarchy
+     */
+    public function getTerritorialScope()
+    {
+        if (!$this->manager) {
+            return [
+                'agencies' => collect(),
+                'customers' => collect(),
+                'managers' => collect()
+            ];
+        }
+
+        return [
+            'agencies' => $this->agencies,
+            'customers' => $this->customers()->get(),
+            'managers' => $this->accessibleManagers()
+        ];
+    }
+
+    /**
+     * Get employees under the same manager (colleagues)
+     */
+    public function colleagues()
+    {
+        if (!$this->manager_id) {
+            return $this->newQuery()->whereNull('id'); // Return empty query
+        }
+
+        return $this->newQuery()
+            ->where('manager_id', $this->manager_id)
+            ->where('id', '!=', $this->id);
+    }
+
+    /**
+     * Scope: Filter by manager
+     */
+    public function scopeByManager($query, $managerId)
+    {
+        return $query->where('manager_id', $managerId);
+    }
+
+    /**
+     * Scope: Filter by accessible managers for an employee
+     */
+    public function scopeAccessibleTo($query, Employee $employee)
+    {
+        $managerIds = $employee->accessibleManagers()->pluck('id')->toArray();
+        return $query->whereIn('manager_id', $managerIds);
+    }
+
+    /**
+     * Scope: Active employees
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
     }
 
     /**

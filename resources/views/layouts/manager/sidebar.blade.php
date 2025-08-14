@@ -15,9 +15,9 @@
 
   <div class="menu-inner-shadow"></div>
   <ul class="menu-inner py-1 manager-nav">
-    <!-- Region Info -->
+    <!-- Hierarchy Info -->
     <li class="menu-header small text-uppercase">
-      <span class="menu-header-text">{{ auth('manager')->user()->region->name ?? 'No Region' }} Region</span>
+      <span class="menu-header-text">{{ auth('manager')->user()->level_name ?? 'Manager' }} - Level {{ auth('manager')->user()->depth ?? 0 }}</span>
     </li>
     
     <!-- Apps & Pages -->
@@ -26,6 +26,25 @@
         <i class="menu-icon tf-icons ti ti-home"></i>
         <div>{{ __('Dashboard') }}</div>
       </a>
+    </li>
+
+    <li class="menu-item" id="managers">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons ti ti-user-star"></i>
+        <div>{{ __('Team Management') }}</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="{{route('manager.managers.index')}}" class="menu-link">
+            <div>{{ __('My Team') }}</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="{{route('manager.managers.create')}}" class="menu-link">
+            <div>{{ __('Add Manager') }}</div>
+          </a>
+        </li>
+      </ul>
     </li>
 
     <li class="menu-item" id="employees">

@@ -43,9 +43,33 @@
     </li>
     
     <li class="menu-item" id="managers">
-      <a href="{{route('admin.managers.index')}}" class="menu-link">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons ti ti-user-star"></i>
         <div>{{ __('Managers') }}</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="{{route('admin.managers.index')}}" class="menu-link">
+            <div>{{ __('Manager List') }}</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="{{route('admin.managers.hierarchy')}}" class="menu-link">
+            <div>{{ __('Hierarchy View') }}</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="{{route('admin.managers.create')}}" class="menu-link">
+            <div>{{ __('Add Manager') }}</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+    
+    <li class="menu-item" id="manager-levels">
+      <a href="{{route('admin.manager-levels.index')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-hierarchy"></i>
+        <div>{{ __('Manager Levels') }}</div>
       </a>
     </li>
     

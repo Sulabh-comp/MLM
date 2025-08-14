@@ -60,15 +60,23 @@
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="region_id" class="form-label">Region</label>
-                            <select class="form-select @error('region_id') is-invalid @enderror" id="region_id" name="region_id">
-                                @foreach($regions as $region)
-                                    <option value="{{ $region->id }}" {{ old('region_id') == $region->id ? 'selected' : '' }}>
-                                        {{ $region->name }}
+                            <label for="manager_id" class="form-label">Assign to Manager *</label>
+                            <select class="form-select @error('manager_id') is-invalid @enderror" id="manager_id" name="manager_id" required>
+                                <option value="">Choose Manager...</option>
+                                @foreach($availableManagers as $availableManager)
+                                    <option value="{{ $availableManager->id }}" 
+                                            {{ old('manager_id', $manager->id) == $availableManager->id ? 'selected' : '' }}
+                                            data-level="{{ $availableManager->level_name }}">
+                                        {{ str_repeat('—', ($availableManager->depth ?? 0) - ($manager->depth ?? 0)) }}
+                                        {{ $availableManager->name }}
+                                        @if($availableManager->level_name)
+                                            ({{ $availableManager->level_name }})
+                                        @endif
                                     </option>
                                 @endforeach
                             </select>
-                            @error('region_id')
+                            <div class="form-text">Employee will be assigned to the selected manager in the hierarchy</div>
+                            @error('manager_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -107,34 +115,51 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
-                <h6 class="card-title mb-0">Quick Info</h6>
+                <h6 class="card-title mb-0">Hierarchy Context</h6>
             </div>
             <div class="card-body">
                 <div class="d-flex align-items-center mb-3">
                     <div class="avatar flex-shrink-0 me-3">
-                        <span class="avatar-initial rounded bg-label-info">
-                            <i class="ti ti-map-pin"></i>
+                        <span class="avatar-initial rounded bg-label-primary">
+                            <i class="ti ti-user-check"></i>
                         </span>
                     </div>
                     <div>
-                        <p class="mb-0">Region</p>
-                        <h6 class="mb-0">{{ auth('manager')->user()->region->name }}</h6>
+                        <p class="mb-0">Your Level</p>
+                        <h6 class="mb-0">{{ auth('manager')->user()->level_name ?? 'Manager' }}</h6>
                     </div>
                 </div>
                 
                 <div class="d-flex align-items-center mb-3">
                     <div class="avatar flex-shrink-0 me-3">
-                        <span class="avatar-initial rounded bg-label-primary">
+                        <span class="avatar-initial rounded bg-label-info">
                             <i class="ti ti-users"></i>
                         </span>
                     </div>
                     <div>
-                        <p class="mb-0">Current Employees</p>
-                        <h6 class="mb-0">{{ App\Models\Employee::where('region_id', auth('manager')->user()->region_id)->count() }}</h6>
+                        <p class="mb-0">Direct Employees</p>
+                        <h6 class="mb-0">{{ auth('manager')->user()->directEmployees()->count() }}</h6>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mb-3">
+                    <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-success">
+                            <i class="ti ti-sitemap"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <p class="mb-0">Available Managers</p>
+                        <h6 class="mb-0">{{ count($availableManagers) }}</h6>
                     </div>
                 </div>
 
                 <hr>
+                <div class="alert alert-info p-3">
+                    <i class="ti ti-info-circle me-2"></i>
+                    <small>You can assign employees to yourself or any manager in your hierarchy.</small>
+                </div>
+                
                 <small class="text-muted">* Required fields must be filled</small>
             </div>
         </div>

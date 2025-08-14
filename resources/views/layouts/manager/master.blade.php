@@ -139,12 +139,6 @@
                             @yield('breadcrumbs')
                           </ol>
                         </nav>
-                        @if(!request()->is('*create*') && !request()->is('*edit*'))
-                        <form class="d-flex" method="GET" action="">
-                          <input class="form-control me-2" type="search" name="q" placeholder="Search" value="{{ request('q') }}" aria-label="Search">
-                          <button class="btn btn-outline-primary" type="submit">{{ __('Search') }}</button>
-                        </form>
-                        @endif
                         @yield('bulk_action')
                     </div>
                     @yield('content')

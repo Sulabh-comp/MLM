@@ -10,11 +10,10 @@ class Region extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'code', 'description', 'states', 'status'
+        'name', 'code', 'description', 'status'
     ];
 
     protected $casts = [
-        'states' => 'array',
         'status' => 'boolean'
     ];
 
@@ -23,15 +22,18 @@ class Region extends Model
         return $this->hasMany(Manager::class);
     }
 
+    // Get all employees in this region through managers
     public function employees()
     {
-        return $this->hasMany(Employee::class);
+        return Employee::whereHas('manager', function($query) {
+            $query->where('region_id', $this->id);
+        });
     }
 
-    // Get all agencies in this region through employees
+    // Get all agencies in this region through managers and their employees
     public function agencies()
     {
-        return Agency::whereHas('employee', function($query) {
+        return Agency::whereHas('employee.manager', function($query) {
             $query->where('region_id', $this->id);
         });
     }
@@ -39,7 +41,7 @@ class Region extends Model
     // Get all customers in this region through agencies
     public function customers()
     {
-        return Customer::whereHas('agency.employee', function($query) {
+        return Customer::whereHas('agency.employee.manager', function($query) {
             $query->where('region_id', $this->id);
         });
     }
