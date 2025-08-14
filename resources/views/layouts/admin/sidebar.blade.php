@@ -66,12 +66,12 @@
       </ul>
     </li>
     
-    <li class="menu-item" id="manager-levels">
+    {{-- <li class="menu-item" id="manager-levels">
       <a href="{{route('admin.manager-levels.index')}}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-hierarchy"></i>
         <div>{{ __('Manager Levels') }}</div>
       </a>
-    </li>
+    </li> --}}
     
     <li class="menu-item" id="regions">
       <a href="{{route('admin.regions.index')}}" class="menu-link">
