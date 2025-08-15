@@ -54,8 +54,12 @@
       </p>
     </div>
     <div class="col-md-6">
-      <h6>{{ __('Employee') }}</h6>
-      <p>{{ $employee->employee->name ??  'NA' }}</p>
+      <h6>{{ __('Manager') }}</h6>
+      <p>{{ $employee->manager->name ?? 'No Manager Assigned' }}</p>
+    </div>
+    <div class="col-md-6">
+      <h6>{{ __('Designation') }}</h6>
+      <p>{{ $employee->designation ?? 'N/A' }}</p>
     </div>
     <div class="col-md-6">
       <h6>{{ __('Number of Agencies') }}</h6>
@@ -113,7 +117,7 @@
         </tbody>
       </table>
       <div class="d-flex justify-content-center mt-3">
-        {{ $agencies->links() }}
+        {{ $agencies->render() }}
       </div>
     @endif
   </div>

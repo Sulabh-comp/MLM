@@ -42,16 +42,13 @@
                                 <label for="designation" class="form-label">{{ __('Designation') }}</label>
                                 <input type="text" class="form-control" id="designation" name="designation" placeholder="{{ __('Designation') }}" required value="{{ old('designation') ?? $employee->designation }}">
                         </div>
-                        @php
-                            $regions = \App\Models\Region::all();
-                        @endphp
                         <div class="mb-3 col-6">
-                                <label for="region_id" class="form-label">{{ __('Region') }}</label>
-                                <select class="form-select" id="region_id" name="region_id" required>
-                                        <option value="">{{ __('Select Region') }}</option>
-                                        @foreach($regions as $region)
-                                                <option value="{{ $region->id }}" {{ old('region_id', $employee->region_id) == $region->id ? 'selected' : '' }}>
-                                                        {{ $region->name }}
+                                <label for="manager_id" class="form-label">{{ __('Manager') }}</label>
+                                <select class="form-select" id="manager_id" name="manager_id" required>
+                                        <option value="">{{ __('Select Manager') }}</option>
+                                        @foreach($managers as $manager)
+                                                <option value="{{ $manager->id }}" {{ old('manager_id', $employee->manager_id) == $manager->id ? 'selected' : '' }}>
+                                                        {{ $manager->name }} - {{ $manager->level_name ?? 'No Level' }}
                                                 </option>
                                         @endforeach
                                 </select>

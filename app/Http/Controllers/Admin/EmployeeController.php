@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Employee;
-use App\Models\Region;
+use App\Models\Manager;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -12,15 +12,15 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $data = Employee::with('region')->paginate(10);
+        $data = Employee::with('manager')->paginate(10);
 
         return view('admin.employees.index', compact('data'));
     }
 
     public function create()
     {
-        $regions = Region::where('status', 1)->get();
-        return view('admin.employees.create', compact('regions'));
+        $managers = Manager::where('status', 1)->get();
+        return view('admin.employees.create', compact('managers'));
     }
 
     public function store(Request $request)
@@ -30,7 +30,7 @@ class EmployeeController extends Controller
             'email' => 'required|email|unique:employees,email',
             'phone' => 'required',
             'designation' => 'required',
-            'region_id' => 'required|exists:regions,id',
+            'manager_id' => 'required|exists:managers,id',
         ]);
 
         $employee = new Employee();
@@ -38,7 +38,8 @@ class EmployeeController extends Controller
         $employee->email = $request->email;
         $employee->phone = $request->phone;
         $employee->designation = $request->designation;
-        $employee->region_id = $request->region_id;
+        $employee->manager_id = $request->manager_id;
+        $employee->status = 1;
         $employee->save();
 
         return redirect()->route('admin.employees.index')->with('success', 'Employee created successfully');
@@ -46,8 +47,8 @@ class EmployeeController extends Controller
 
     public function edit(Employee $employee)
     {
-        $regions = Region::where('status', 1)->get();
-        return view('admin.employees.edit', compact('employee', 'regions'));
+        $managers = Manager::where('status', 1)->get();
+        return view('admin.employees.edit', compact('employee', 'managers'));
     }
 
     public function update(Request $request, Employee $employee)
@@ -57,14 +58,14 @@ class EmployeeController extends Controller
             'email' => 'required|email|unique:employees,email,' . $employee->id,
             'phone' => 'required',
             'designation' => 'required',
-            'region_id' => 'required|exists:regions,id',
+            'manager_id' => 'required|exists:managers,id',
         ]);
 
         $employee->name = $request->name;
         $employee->email = $request->email;
         $employee->phone = $request->phone;
         $employee->designation = $request->designation;
-        $employee->region_id = $request->region_id;
+        $employee->manager_id = $request->manager_id;
         $employee->save();
 
         return redirect()->route('admin.employees.index')->with('success', 'Employee updated successfully');

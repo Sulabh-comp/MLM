@@ -39,7 +39,7 @@
     <tbody class="table-border-bottom-0">
       @forelse($data as $key => $datum)
       <tr>
-        <td><span class="fw-medium">{{ $key + 1 }}</span></td>
+        <td><span class="fw-medium">{{ $datum->id }}</span></td>
         <td><span class="badge bg-secondary">{{ $datum->code ?? 'N/A' }}</span></td>
         <td>
           <a class="dropdown-item" href="{{ route('admin.employees.show', $datum) }}" class="dropdown-item">
