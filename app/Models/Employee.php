@@ -156,9 +156,14 @@ class Employee extends Authenticatable
         $nameParts = explode(' ', $this->name ?? '');
         $firstName = strtoupper(substr($nameParts[0] ?? '', 0, 2));
         $lastName = strtoupper(substr($nameParts[1] ?? '', 0, 2));
-        $paddedId = str_pad($this->id, 4, '0', STR_PAD_LEFT);
-        
-        return 'EMP' . $firstName . $lastName . $paddedId;
+        // $paddedId = str_pad($this->id, 4, '0', STR_PAD_LEFT);
+        $random = rand(10000, 99999);
+        $code = 'EMP' . $firstName . $lastName . $random;
+        if (self::where('code', $code)->exists()) {
+            return $this->generateCode(); // Recursively generate a new code
+        }
+
+        return $code;
     }
 
     protected static function booted()

@@ -25,9 +25,13 @@ class Customer extends Model
     {
         $firstName = strtoupper(substr($this->first_name ?? '', 0, 2));
         $lastName = strtoupper(substr($this->last_name ?? '', 0, 2));
-        $paddedId = str_pad($this->id, 4, '0', STR_PAD_LEFT);
-        
-        return 'CUS' . $firstName . $lastName . $paddedId;
+        $random = rand(10000, 99999);
+        $code = 'CUS' . $firstName . $lastName . $random;
+        if (self::where('code', $code)->exists()) {
+            return $this->generateCode(); // Recursively generate a new code
+        }
+
+        return $code;
     }
 
     protected static function booted()
