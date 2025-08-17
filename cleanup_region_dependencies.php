@@ -43,7 +43,7 @@ try {
     // Step 3: Show current employee-manager distribution
     echo "\n=== Current Employee-Manager Distribution ===\n";
     $managerStats = Manager::withCount([
-        'directEmployees',
+        'employees',
         'allSubordinateEmployees'
     ])->get();
     

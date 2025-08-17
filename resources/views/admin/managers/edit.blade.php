@@ -53,7 +53,7 @@
                             <label for="parent_id" class="form-label">{{ __('Reports To (Parent Manager)') }}</label>
                             <select class="form-select" id="parent_id" name="parent_id">
                                 <option value="">{{ __('No Parent (Top Level)') }}</option>
-                                @foreach($managers as $parentManager)
+                                @foreach($potentialParents as $parentManager)
                                     <option value="{{ $parentManager->id }}" @selected($parentManager->id == old('parent_id', $manager->parent_id))>
                                         {{ str_repeat('—', $parentManager->depth) }} {{ $parentManager->name }} 
                                         @if($parentManager->level_name) ({{ $parentManager->level_name }}) @endif

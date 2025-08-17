@@ -112,7 +112,7 @@ try {
     
     // Step 6: Show hierarchy statistics
     echo "\n=== Current Hierarchy Statistics ===\n";
-    $managersWithEmployees = Manager::withCount('directEmployees')->get();
+    $managersWithEmployees = Manager::withCount('employees')->get();
     foreach ($managersWithEmployees as $manager) {
         $hierarchyCount = $manager->allSubordinateEmployees()->count();
         echo "Manager: {$manager->name} - Direct: {$manager->direct_employees_count}, Total in Hierarchy: {$hierarchyCount}\n";

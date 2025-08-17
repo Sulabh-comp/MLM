@@ -99,7 +99,7 @@ class RegionController extends Controller
 
     public function show(Region $region)
     {
-        $managers = $region->managers()->with(['managerLevel', 'directEmployees'])->paginate(10, ['*'], 'managers_page');
+        $managers = $region->managers()->with(['managerLevel', 'employees'])->paginate(10, ['*'], 'managers_page');
         
         // Get all employees in this region through managers
         $employees = collect();

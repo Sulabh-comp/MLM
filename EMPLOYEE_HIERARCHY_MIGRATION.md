@@ -237,7 +237,7 @@ Senior Manager (Level 1)
 Employee::whereNull('manager_id')->count()
 
 // Verify manager hierarchy
-Manager::with('subordinates', 'directEmployees')->get()
+Manager::with('subordinates', 'employees')->get()
 
 // Test access control
 $manager->accessibleEmployees()->count()

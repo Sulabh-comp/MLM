@@ -138,7 +138,7 @@
                     </div>
                     <div>
                         <p class="mb-0">Direct Employees</p>
-                        <h6 class="mb-0">{{ auth('manager')->user()->directEmployees()->count() }}</h6>
+                        <h6 class="mb-0">{{ auth('manager')->user()->employees()->count() }}</h6>
                     </div>
                 </div>
 
