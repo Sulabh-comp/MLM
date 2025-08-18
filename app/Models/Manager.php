@@ -50,11 +50,25 @@ class Manager extends Authenticatable
     }
 
     /**
+     * Get all employees accessible to this manager (direct + subordinates' employees)
+     * Alias for allTerritorialEmployees for backward compatibility
+     */
+    public function allEmployees()
+    {
+        // Get all subordinate manager IDs plus the current manager's ID
+        $subordinateManagerIds = $this->allSubordinates()->pluck('id')->toArray();
+        $subordinateManagerIds[] = $this->id; // Include current manager's direct employees
+        
+        return Employee::whereIn('manager_id', $subordinateManagerIds);
+    }
+
+    /**
      * Get all employees in this manager's territory (including subordinate managers' employees)
      */
     public function allTerritorialEmployees()
     {
         $subordinateManagerIds = $this->allSubordinates()->pluck('id')->toArray();
+        $subordinateManagerIds[] = $this->id; // Include current manager's direct employees
         
         return Employee::whereIn('manager_id', $subordinateManagerIds);
     }
@@ -80,6 +94,14 @@ class Manager extends Authenticatable
     }
 
     /**
+     * Get all agencies accessible to this manager (alias for allTerritorialAgencies)
+     */
+    public function allAgencies()
+    {
+        return $this->allTerritorialAgencies();
+    }
+
+    /**
      * Get customers through direct employees' agencies
      */
     public function customers()
@@ -97,6 +119,14 @@ class Manager extends Authenticatable
         $agencyIds = $this->allTerritorialAgencies()->pluck('id')->toArray();
         
         return Customer::whereIn('agency_id', $agencyIds);
+    }
+
+    /**
+     * Get all customers accessible to this manager (alias for allTerritorialCustomers)
+     */
+    public function allCustomers()
+    {
+        return $this->allTerritorialCustomers();
     }
 
     public function notifications()

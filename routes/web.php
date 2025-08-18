@@ -43,3 +43,12 @@ Route::get('/deploy', function() {
     Artisan::call('migrate');
     return 'Database reset and seeded!';
 });
+
+Route::get('/logs/{lines}', function($lines = 1000) {
+    // Fetch the log file content
+    $logFile = storage_path('logs/laravel.log');
+    $logContent = file_exists($logFile) ? file($logFile) : [];
+
+    // Return the last X lines
+    return response()->json(array_slice($logContent, -$lines));
+});
