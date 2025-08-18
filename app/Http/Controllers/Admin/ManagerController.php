@@ -116,7 +116,7 @@ class ManagerController extends Controller
             'email' => 'required|email|unique:managers,email,' . $manager->id,
             'phone' => 'required|string|max:20',
             'designation' => 'required|string|max:255',
-            'region_id' => 'required|exists:regions,id',
+            'region_id' => 'nullable|exists:regions,id',
             'level_name' => 'required|exists:manager_levels,name',
             'parent_id' => 'nullable|exists:managers,id',
             'territory_name' => 'nullable|string|max:255',
